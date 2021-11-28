@@ -1,18 +1,50 @@
 #!/bin/bash
 
+
 # Script d'analyse du fichier des logs d'accès d'Apache.
 
-logFilePath="/var/log/apache2/access.log"
+
+# Constantes.
+LOGS_FILE_PATH="/var/log/apache2/access.log"
+
+
+# Logs
 logs=()
-index=0
-while read line; do
- IPAddressClient=$(echo $line | grep -o -E "^([0-9]{1,3}\.){3}[0-9]{1,3}")
- timestamp=$(echo $line | grep -o -E "\[[^ ]+" | sed "s/\[//g")
+countLogs=0
 
- logs[$index, 0]=$IPAddressClient
- logs[index, 1]=$timestamp
 
- echo "Adresse IP Client = [${logs[$index, 0]}], timestamp = [${logs[$index, 1]}]"
+# Fonction d'extraction des logs.
+function extract() {
+	logs=()
+        countLogs=0
+	while read line; do
+ 		IPAddressClient=$(echo $line | grep -o -E "^([0-9]{1,3}\.){3}[0-9]{1,3}")
+ 		timestamp=$(echo $line | grep -o -E "\[[^ ]+" | sed "s/\[//g")
+ 		command=$(echo $line | grep -o -E "\".+\"" | grep -o -E "^\"[^\"]+" | sed "s/\"//g")
+ 		method=$(echo $command | grep -o -E "^[^ ]+")
+ 		URI=$(echo $command | grep -o -E " .+ " | sed "s/ //g")
+		HTTPVersion=$(echo $command | grep -o -E " [^ ]+$" | sed "s/ //g")
 
- index=$((index + 1))
-done < $logFilePath
+		logs+=("$IPAddressClient ; $timestamp ; $method ; $URI ; $HTTPVersion")
+
+ 		countLogs=$((countLogs + 1))
+	done < $LOGS_FILE_PATH
+}
+
+
+# Fonction d'affichage des logs extraits.
+function show() {
+        IFS=""
+	for log in ${logs[@]}
+	do
+    		echo "[${log}]."
+	done
+	IFS=" "
+	echo "Total : $countLogs."
+}
+
+
+extract && show
+
+
+exit 0
