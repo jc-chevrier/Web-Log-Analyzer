@@ -24,11 +24,11 @@ function extract() {
  		method=$(echo $command | grep -o -E "^[^ ]+")
  		URI=$(echo $command | grep -o -E " .+ " | sed "s/ //g")
 		HTTPVersion=$(echo $command | grep -o -E " [^ ]+$" | sed "s/ //g")
-
+                #TODO navigateur web extraction
 		logs+=("$IPAddressClient ; $timestamp ; $method ; $URI ; $HTTPVersion")
-
  		countLogs=$((countLogs + 1))
 	done < $LOGS_FILE_PATH
+	return 0
 }
 
 
@@ -41,6 +41,7 @@ function show() {
 	done
 	IFS=" "
 	echo "Total : $countLogs."
+	return 0
 }
 
 
