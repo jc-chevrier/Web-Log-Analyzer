@@ -19,7 +19,8 @@ function extract() {
 	logs=()
         countLogs=0
 
-	while read line; do
+	while read line;
+	do
  		local IPAddressClient=$(echo $line | grep -o -E "^([0-9]{1,3}\.){3}[0-9]{1,3}")
 
  		local timestamp=$(echo $line | grep -o -E "\[[^ ]+" | sed "s/\[//g")
@@ -56,8 +57,12 @@ function show() {
 }
 
 
-# Exécution.
-extract && show
-
-
-exit 0
+# Exécutuion.
+if [ -f "$LOGS_FILE_PATH" ];
+then
+	extract && show
+	exit 0
+else
+	echo "Ficher $LOGS_FILE_PATH introuvable !"
+	exit 1
+fi
