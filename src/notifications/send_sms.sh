@@ -8,12 +8,12 @@
 function send() {
 	#Paramètres.
 	phoneNumber=$1
-	SMS=$2
+	sms=$2
 
 	# Envoi du sms.
 	result=$(curl -X POST https://textbelt.com/text \
 	--data-urlencode phone="$phoneNumber" \
-	--data-urlencode message="$SMS" \
+	--data-urlencode message="$sms" \
 	-d key=textbelt --silent)
 
 	# Résultat de l'envoi.

@@ -1,11 +1,12 @@
 Application :
-Web Logs Analyzer
+Web Log Analyzer
 
 
 ----------------------------------------------------------------------------------------
 Description :
 Solution de monitoring de logs :
-- analyse de logs pour la détection d'attaques ;
+- analyse de logs pour la détection d'attaques sur les serveurs web Apache2, en 
+  environnement linux ;
 - notification d'attaques.
 
 
@@ -25,6 +26,8 @@ Installation :
 
 Se procurer une machine avec un OS linux.
 
+Ouvrir un terminal bash.
+
 Installer apache2.
 
 Installer mailutils.
@@ -33,17 +36,17 @@ Installer mailutils.
 
 Installer curl.
 
-Autoriser l'envoi d'e-mail sur le réseau que vous utilisez pour vous connectez à internet
-sur votre machine.
+Autoriser l'envoi d'e-mail sur le réseau que vous utilisez pour vous connectez à 
+internet sur votre machine.
 
-Renseigner sa clé pour l'API SMS conf/sms_api_keybelt_key.conf. Si elle n'est pas renseigné,
-pas plus d'un SMS par jour ne pourra être envoyé par l'application.
-URL pour acheter une clé de l'API en question : . 
+Renseigner sa clé pour l'API SMS conf/sms_api_textbelt_key.conf. Si elle n'est pas 
+renseigné, pas plus d'un SMS par jour ne pourra être envoyé par l'application.
+URL pour acheter une clé de l'API en question : https://textbelt.com/purchase/?generateKey=1. 
 
 Exporter le chemin de l'application : 
-export WEB_LOGS_ANALYZER="CHEMIN_DE_L_APPLICATION_SUR_MA_MACHINE" 
+export WEB_LOG_ANALYZER="CHEMIN_DE_L_APPLICATION_SUR_MA_MACHINE" 
 
 
 ----------------------------------------------------------------------------------------
 Exécution :
-bash CHEMIN_DE_LA_SOLUTION_SUR_MA_MACHINE/main.sh
+bash CHEMIN_DE_LA_SOLUTION_SUR_MA_MACHINE/src/main.sh
