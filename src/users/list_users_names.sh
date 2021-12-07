@@ -6,7 +6,7 @@
 
 
 # Constantes.
-USERS_FILE_PATH="${WEB_LOG_ANALYSER_PATH}/conf/users.conf"
+USERS_FILE_PATH="${WEB_LOG_ANALYZER_PATH}/conf/users.conf"
 
 # Fonction d'extraction des noms.
 function extract() {
