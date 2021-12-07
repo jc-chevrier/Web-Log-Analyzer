@@ -10,7 +10,8 @@ USERS_FILE_PATH="${WEB_LOG_ANALYZER_PATH}/conf/users.conf"
 
 # Fonction d'extraction des numéro de téléphone.
 function extract() {
-	# Pour chaque utilisateur.
+	# Extraction pour chaque utilisateur.
+	phoneNumbers=""
 	while read user;
 	do
 		oldIFS=$IFS
@@ -20,8 +21,7 @@ function extract() {
 		do
 			if [ $count -eq 2 ]
 			then
-				#Envoi du résultat.
-				echo $dataUser
+				phoneNumbers="$dataUser $phoneNumbers"
 				break
 			else
 				count=$((count + 1))
@@ -29,6 +29,9 @@ function extract() {
 		done
 		IFS=$oldIFS
 	done < $USERS_FILE_PATH
+
+	# Envoi du résultat.
+	echo $phoneNumbers
 
 	# Retour.
 	return 0

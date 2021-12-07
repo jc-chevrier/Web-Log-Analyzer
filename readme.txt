@@ -51,4 +51,6 @@ export WEB_LOG_ANALYZER_PATH="CHEMIN_DE_L_APPLICATION_SUR_MA_MACHINE"
 
 ----------------------------------------------------------------------------------------------
 Exécution :
+
+En tant qu'utilisateur root :
 bash CHEMIN_DE_LA_SOLUTION_SUR_MA_MACHINE/src/main.sh

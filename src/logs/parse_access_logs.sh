@@ -42,14 +42,15 @@ function extract() {
 
 # Fonction d'affichage des logs extraits.
 function show() {
-        IFS=""
+        oldIFS=$IFS
+	IFS=""
 
 	for log in ${logs[@]}
 	do
     		echo "[${log}]."
 	done
 
-	IFS=" "
+	IFS=$oldIFS
 
 	echo "Total : $countLogs."
 
