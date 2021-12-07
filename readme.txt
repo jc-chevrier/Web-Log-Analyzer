@@ -44,7 +44,7 @@ renseigné, pas plus d'un SMS par jour ne pourra être envoyé par l'application
 URL pour acheter une clé de l'API en question : https://textbelt.com/purchase/?generateKey=1. 
 
 Exporter le chemin de l'application : 
-export WEB_LOG_ANALYZER="CHEMIN_DE_L_APPLICATION_SUR_MA_MACHINE" 
+export WEB_LOG_ANALYZER_PATH="CHEMIN_DE_L_APPLICATION_SUR_MA_MACHINE" 
 
 
 ----------------------------------------------------------------------------------------

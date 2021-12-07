@@ -6,7 +6,7 @@
 
 
 # Constantes.
-USERS_FILE_PATH="../../conf/users.conf"
+USERS_FILE_PATH="${WEB_LOG_ANALYZER_PATH}/conf/users.conf"
 
 # Fonction d'extraction des numéro de téléphone.
 function extract() {
