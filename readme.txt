@@ -37,10 +37,12 @@ Installer mailutils.
 Installer curl.
 
 Autoriser l'envoi d'e-mail sur le réseau que vous utilisez pour vous connectez à 
-internet sur votre machine.
+internet sur votre machine. 
+Par défaut, sur les boxs par exemple, l'envoi d'e-mail est bloqué.
 
-Renseigner sa clé pour l'API SMS conf/sms_api_textbelt_key.conf. Si elle n'est pas 
-renseigné, pas plus d'un SMS par jour ne pourra être envoyé par l'application.
+Renseigner une clé pour l'API SMS dans le fichier conf/sms_api_textbelt_key.conf. 
+Si elle n'est pas renseignée, pas plus d'un SMS par jour ne pourra être envoyé par 
+l'application.
 URL pour acheter une clé de l'API en question : https://textbelt.com/purchase/?generateKey=1. 
 
 Exporter le chemin de l'application : 
