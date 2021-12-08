@@ -22,7 +22,7 @@ function send() {
 # Exécution.
 if [ $# -eq 3 ]
 then
-	send $@
+	send "$1" "$2" "$3"
 	if [ $? -eq 0 ]
 	then
 		exit 0
