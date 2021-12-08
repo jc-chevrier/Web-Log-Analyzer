@@ -59,7 +59,7 @@ function show() {
 
 
 # Exécutuion.
-if [ -f "$LOGS_FILE_PATH" ];
+if [ -f "$LOGS_FILE_PATH" ]
 then
 	extract && show
 	exit 0

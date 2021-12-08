@@ -38,7 +38,7 @@ function extract() {
 }
 
 # Exécutuion.
-if [ -f "$USERS_FILE_PATH" ];
+if [ -f "$USERS_FILE_PATH" ]
 then
 	extract
 	exit 0
