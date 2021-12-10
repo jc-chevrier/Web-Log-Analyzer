@@ -9,10 +9,6 @@
 LOGS_FILE_PATH="/var/log/apache2/access.log"
 PARSED_LOGS_FILE_PATH="${WEB_LOG_ANALYZER_PATH}/tmp/parsed_access_logs"
 
-# Variables globales.
-logs=()
-countLogs=0
-
 
 # Fonction d'extraction des logs.
 function parse() {
@@ -42,8 +38,10 @@ function parse() {
  			local URI=$(echo $command | grep -o -E " .+ " | sed "s/ //g")
 			local HTTPVersion=$(echo $command | grep -o -E " [^ ]+$" | sed "s/ //g")
 
+			# TODO extraction client web, etc.
+
 			# Envoi du résultat.
-			echo "$IPAddressClient;;;$timestamp;;;$method;;;$URI;;;$HTTPVersion" >> "$PARSED_LOGS_FILE_PATH"
+			echo "$IPAddressClient;;$timestamp;;$method;;$URI;;$HTTPVersion" >> "$PARSED_LOGS_FILE_PATH"
 		fi
 
  		index=$((index + 1))
