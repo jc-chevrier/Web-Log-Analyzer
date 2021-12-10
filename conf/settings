@@ -1,0 +1,5 @@
+sms_textbelt_api_key=A_REMPLIR
+
+
+attack_ddos_interval=300000
+attack_ddos_number_request_minimum=100

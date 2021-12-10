@@ -6,10 +6,10 @@
 
 
 # Constantes.
-USERS_FILE_PATH="${WEB_LOG_ANALYZER_PATH}/conf/users.conf"
+USERS_FILE_PATH="${WEB_LOG_ANALYZER_PATH}/conf/users"
 
 # Fonction d'extraction des numéro de téléphone.
-function extract() {
+function parse() {
 	# Extraction pour chaque utilisateur.
 	phoneNumbers=""
 	while read user;
@@ -28,10 +28,10 @@ function extract() {
 			fi
 		done
 		IFS=$oldIFS
-	done < $USERS_FILE_PATH
+	done < "$USERS_FILE_PATH"
 
 	# Envoi du résultat.
-	echo $phoneNumbers
+	echo "$phoneNumbers"
 
 	# Retour.
 	return 0
@@ -40,7 +40,7 @@ function extract() {
 # Exécutuion.
 if [ -f "$USERS_FILE_PATH" ]
 then
-	extract
+	parse
 	exit 0
 else
 	echo "Ficher $USERS_FILE_PATH introuvable !"
