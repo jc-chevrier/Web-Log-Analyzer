@@ -1,19 +1,25 @@
 #!/bin/bash
 
 
-# Script d'analyse du fichier des logs d'accès d'Apache :
-# "/var/log/apache2/access.log"
+# Script d'analyse du fichier des logs d'accès d'Apache.
 
 
 # Constantes.
 LOGS_FILE_PATH="/var/log/apache2/access.log"
 PARSED_LOGS_FILE_PATH="${WEB_LOG_ANALYZER_PATH}/tmp/parsed_access_logs"
+TEMPORARY_DIRECTORY_PATH="${WEB_LOG_ANALYZER_PATH}/tmp"
 
 
 # Fonction d'extraction des logs.
 function parse() {
 	# Paramètres.
 	indexStart=$1
+
+	# Création du dossier des données temporaires.
+	if [ -d "$TEMPORARY_DIRECTORY_PATH" ]
+	then
+		mkdir "$TEMPORARY_FILE_PATH"
+	fi
 
 	# Nettoyage du fichier de résultat.
 	if [ -f "$PARSED_LOGS_FILE_PATH" ]
@@ -22,10 +28,11 @@ function parse() {
 	fi
 	touch "$PARSED_LOGS_FILE_PATH"
 
-	# Pour chaque log.
+	# Pour chaque ligne des logs.
 	index=0
 	while read line;
 	do
+		# Si on a atteint la ligne de début précisée.
 		if [ $indexStart -le $index ]
 		then
 			# Extraction.
@@ -56,7 +63,7 @@ if [ -f "$LOGS_FILE_PATH" ]
 then
 	if [ $# -eq 1 ]
 	then
-		parse $1
+		parse "$1"
 	else
 		parse 0
 	fi

@@ -6,37 +6,15 @@
 
 
 # Constantes.
-USERS_FILE_PATH="${WEB_LOG_ANALYZER_PATH}/conf/users"
+USER_LIST_DATA_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/users/list_users_datas.sh"
 
-# Fonction d'extraction des noms.
-function parse() {
-	# Extraction pour chaque utilisateur.
-	names=""
-	while read user;
-	do
-		oldIFS=$IFS
- 		IFS=";"
-		for dataUser in $user
-		do
-			names="$dataUser $names"
-			break
-		done
-		IFS=$oldIFS
-	done < "$USERS_FILE_PATH"
 
-	#Envoi du résultat.
-	echo "$names"
-
-	# Retour.
-	return 0
-}
-
-# Exécutuion.
-if [ -f "$USERS_FILE_PATH" ]
+# Exécution.
+if [ -f "$USER_LIST_DATA_SCRIPT_PATH" ]
 then
-	parse
+	bash "$USER_LIST_DATA_SCRIPT_PATH" 0
 	exit 0
 else
-	echo "Ficher $USERS_FILE_PATH introuvable !"
+	echo "Script $USER_LIST_DATA_SCRIPT_PATH introuvable !"
 	exit 1
 fi

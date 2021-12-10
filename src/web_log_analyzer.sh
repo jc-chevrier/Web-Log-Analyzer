@@ -9,4 +9,11 @@ DETECT_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/attacks/detect.sh"
 
 
 # Exécution.
-bash "$DETECT_SCRIPT_PATH"
+if [ -f "$DETECT_SCRIPT_PATH" ]
+then
+	bash "$DETECT_SCRIPT_PATH"
+	exit 0
+else
+	echo "Script $DETECT_SCRIPT_PATH introuvable !"
+	exit 1
+fi
