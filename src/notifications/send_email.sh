@@ -12,7 +12,7 @@ function send() {
 	local content=$3
 
 	# Envoi de l'email.
-	echo "$content" | mail -s "$subject" "$recipients"
+	echo "$content" | mail -a "From: Web Log Analyzer" -s "$subject" $recipients
 
 	# Résultat de l'envoi.
 	return $?
