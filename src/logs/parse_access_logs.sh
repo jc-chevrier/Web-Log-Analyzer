@@ -19,14 +19,19 @@ function parse() {
 	if [ ! -d "$TEMPORARY_DIRECTORY_PATH" ]
 	then
 		mkdir "$TEMPORARY_DIRECTORY_PATH"
+		chown root:root "$TEMPORARY_DIRECTORY_PATH"
+		chmod u=rw,g=,o= "$TEMPORARY_DIRECTORY_PATH"
 	fi
 
-	# Nettoyage du fichier de résultat.
-	if [ -f "$PARSED_LOGS_FILE_PATH" ]
+	# Création du fichier de résultat.
+	if [ ! -f "$PARSED_LOGS_FILE_PATH" ]
 	then
-		rm "$PARSED_LOGS_FILE_PATH"
+		# rm "$PARSED_LOGS_FILE_PATH"
+	#else
+		touch "$PARSED_LOGS_FILE_PATH"
+                chown root:root "$PARSED_LOGS_FILE_PATH"
+                chmod u=rw,g=,o= "$PARSED_LOGS_FILE_PATH"
 	fi
-	touch "$PARSED_LOGS_FILE_PATH"
 
 	# Pour chaque ligne des logs.
 	local index=0
