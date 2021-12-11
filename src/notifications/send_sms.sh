@@ -4,17 +4,37 @@
 # Script d'envoi de sms.
 
 
+# Constantes.
+GET_SETTING_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/settings/get_setting.sh"
+
+
 # Envoyer un SMS.
 function send() {
-	#Paramètres.
-	phoneNumber=$1
-	sms=$2
+	# Paramètres.
+	local phoneNumber=$1
+	local sms=$2
+
+	# Si script de recherche de paramètre de configuration trouvé.
+	if [ ! -f "$GET_SETTING_SCRIPT_PATH" ]
+	then
+		return 1
+	fi
+
+        # Recherche de la valeur de la clé d'accès à l'API.
+	local key=$("$GET_SETTING_SCRIPT_PATH" "sms_textbelt_api_key")
+
+	# Si clé de paramètre de configuration pas trouvée.
+	if [ $? -eq 1 ]
+	then
+		return 1
+	fi
 
 	# Envoi du sms.
-	result=$(curl -X POST https://textbelt.com/text \
+	local result=$(curl -X POST "https://textbelt.com/text" \
 	--data-urlencode phone="$phoneNumber" \
 	--data-urlencode message="$sms" \
-	-d key=textbelt --silent)
+	-d key="$key" \
+	--silent)
 
 	# Résultat de l'envoi.
 	if [ $? -eq 1 ]
@@ -26,7 +46,7 @@ function send() {
 }
 
 
-#Exécution.
+# Exécution.
 if [ $# -eq 2 ]
 then
 	send "$1" "$2"

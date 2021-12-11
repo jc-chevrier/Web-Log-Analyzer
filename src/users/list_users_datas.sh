@@ -11,15 +11,15 @@ USERS_FILE_PATH="${WEB_LOG_ANALYZER_PATH}/conf/users"
 # Fonction d'extraction des données.
 function parse() {
 	# Paramètres.
-	indexDataSelected=$1
+	local indexDataSelected=$1
 
         # Extraction pour chaque utilisateur.
-        datasUsers=""
+        local datasUsers=""
         while read user;
         do
-                oldIFS=$IFS
+                local oldIFS=$IFS
                 IFS=";"
-                index=0
+                local index=0
                 for dataUser in $user
                 do
                         if [ $index -eq $indexDataSelected ]

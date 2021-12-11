@@ -11,31 +11,31 @@ SETTINGS_FILE_PATH="${WEB_LOG_ANALYZER_PATH}/conf/settings"
 # Fonction d'extraction des paramètres de configuration.
 function parse() {
 	# Paramètres.
-	keySearched=$1
+	local keySearched=$1
 
         # Pour chaque ligne dans les paramètres de configuration.
-        while read line;
+        while read line
         do
 		# Si la ligne n'est pas un commentaire.
 		if [ $(echo $line | grep -c -E "^.*#.*$") -eq 0 ]
 		then
-			oldIFS=$IFS
+			local oldIFS=$IFS
 			IFS="="
-			found=0
+			local found=1
 			# Pour le couple clé valeur du paramètre.
 			for keyOrValue in $line
 			do
-				# Si la clé du paramètre est la bonne.
-				if [ $found -eq 1 ]
+				# Si la clé du paramètre cherché a été trouvée.
+				if [ $found -eq 0 ]
 				then
-					# Affichage la valeur du paramètre.
+					# Affichage de la valeur du paramètre.
 					echo "$keyOrValue"
 					return 0
 				else
 					# Si la clé est égale à la clé du paramètre cherché.
  		                	if [ "$keyOrValue" == "$keySearched" ]
         	                	then
-	                                	found=1
+	                                	found=0
                 	        	else
 						# Passage à une autre ligne.
                         	        	break
@@ -46,6 +46,8 @@ function parse() {
 		fi
         done < "$SETTINGS_FILE_PATH"
 
+	# Retour avec un code d'erreur si la clé du paramaètre
+	# cherché n'a pas été trouvée.
   	return 1
 }
 

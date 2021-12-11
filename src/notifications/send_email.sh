@@ -7,12 +7,12 @@
 # Foncion d'envoi d'e-mail.
 function send() {
 	# Paramètres.
-	recipients=$1
-	subject=$2
-	content=$3
+	local recipients=$1
+	local subject=$2
+	local content=$3
 
 	# Envoi de l'email.
-	echo "$content" | mail "$subject" "$recipients"
+	echo "$content" | mail -s "$subject" "$recipients"
 
 	# Résultat de l'envoi.
 	return $?
