@@ -1,7 +1,6 @@
 # Clé de l'API d'envoi de SMS textbelt.
-# Par défaut sms_textbelt_api_key=textbelt (un sms gratuit par jour)
-sms_textbelt_api_key=textbelt
-
+# Par défaut sms_textbelt_api_key=textbelt (clé pour un sms gratuit par jour)
+sms_textbelt_api_key=68c6f8147c3a754e5a4d6329dfb0d1e058e76cdd4EnQrqqpVNwWruixhazkW3wTF
 
 # Paramètres de la gestion des attaques DDOS.
 attack_ddos_interval=300000
