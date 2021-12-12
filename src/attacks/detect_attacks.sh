@@ -1,17 +1,24 @@
 #!/bin/bash
 
 
+# Script de détection d'attaques.
+
+
 # Constantes.
 ACCESS_LOGS_FILE_PATH="/var/log/apache2/access.log"
 PARSE_ACCESS_LOGS_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/logs/parse_access_logs.sh"
 PARSED_ACCESS_LOGS_FILE_PATH="${WEB_LOG_ANALYZER_PATH}/tmp/parsed_access_logs"
+
+
+# Scripts externes.
+ARRAY_FILE_COUNT_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/utils/arrays/array_file_count.sh"
 DETECT_DDOS_ATTACKS_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/attacks/detect_ddos_attacks.sh"
 
 
-# Fonction principale.
-function main() {
-	echo -e "\nDébut de la détection d'attaques..."
-	echo -e "CTRL-C pour stopper.\n"
+# Détecter des attaques.
+function detect() {
+	echo -e "Début de la détection d'attaques... \
+	         \nCTRL-C pour stopper.\n"
 
 	# Nettoyage des fichiers.
 	if [ -f "$PARSED_ACCESS_LOGS_FILE_PATH" ]
@@ -30,7 +37,7 @@ function main() {
 		"$DETECT_DDOS_ATTACKS_SCRIPT_PATH"
 
 		# Préparation de l'itération suivante.
-		index=$(wc -l "$ACCESS_LOGS_FILE_PATH" | grep -o -E "^[0-9]+ " | sed "s/ //g")
+		index=$("$ARRAY_FILE_COUNT_SCRIPT_PATH" "$ACCESS_LOGS_FILE_PATH")
 		index=$((index + 1))
 
 		break
@@ -41,5 +48,5 @@ function main() {
 
 
 # Exécution.
-main
+detect
 exit $?
