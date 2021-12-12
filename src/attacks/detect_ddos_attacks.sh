@@ -8,6 +8,8 @@
 GET_SETTING_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/settings/get_setting.sh"
 ARRAY_LINE_GET_CELL_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/utils/array/array_line_get_cell.sh"
 CLEAR_FILE_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/utils/files/clear_file.sh"
+LIST_USERS_EMAIL_ADDRESSES_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/users/list_users_email_addresses.sh"
+LIST_USERS_PHONE_NUMBERS_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/users/list_users_phone_numbers.sh"
 
 
 # Fichiers des structures de données.
@@ -95,11 +97,12 @@ function detect() {
 		then
 			# Message affiché.
 			echo "Alerte ! Attaque DDOS détectée pour l'adresse $IPAdressClient sur l'URI $URI : $countRequest requêtes."
+			subject="[Alerte de sécurité] Attaque DDOS détectée"
 			message="Bonjour,\n\n Une attaque DDOS vient d'être détectée sur votre serveur web. Elle a été effectuée par l'adresse $IPAddressClient sur l'URI $URI. $countRequest requêtes ont été faites.\n\nCordialement"
 			# Notifications par e-mail.
-			bash "$SEND_EMAIL_SCRIPT_PATH" "$(bash '$LIST_USERS_EMAIL_ADDRESSES_SCRIPT_PATH')" "Alerte : attaque DDOS détectée" "$message"
+			bash "$SEND_EMAIL_SCRIPT_PATH" "$(bash '$LIST_USERS_EMAIL_ADDRESSES_SCRIPT_PATH')" "$subject" "$message"
 			# Notifications par sms.
-			bash "$SEND_SMS_SCRIPT_PATH" "$(bash '$LIST_USERS_PHONE_NUMBERS_SCRIPT_PATH')" "$message"
+			bash "$SEND_SMS_SCRIPT_PATH" "$(bash '$LIST_USERS_PHONE_NUMBERS_SCRIPT_PATH')" "$subject\n\n$message"
 		fi
         done < "ACCUMULATED_ACCESS_LOGS_FILE_PATH"
 }
