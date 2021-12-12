@@ -44,14 +44,8 @@ function parse() {
 # Exécution.
 if [ $# -eq 1 ]
 then
-	if [ -f "$USERS_FILE_PATH" ]
-	then
-        	parse "$1"
-        	exit 0
-	else
-        	echo "Ficher $USERS_FILE_PATH introuvable !"
-       	 	exit 1
-	fi
+        parse "$1"
+        exit 0
 else
 	echo "Index de donnée sélectionnée non renseigné !"
 	exit 1

@@ -10,11 +10,5 @@ USER_LIST_DATA_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/users/list_users_datas.
 
 
 # Exécution.
-if [ -f "$USER_LIST_DATA_SCRIPT_PATH" ]
-then
-        bash "$USER_LIST_DATA_SCRIPT_PATH" 1
-        exit 0
-else
-        echo "Script $USER_LIST_DATA_SCRIPT_PATH introuvable !"
-        exit 1
-fi
+bash "$USER_LIST_DATA_SCRIPT_PATH" 1
+exit $?

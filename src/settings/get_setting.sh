@@ -55,19 +55,13 @@ function parse() {
 # Exécution.
 if [ $# -eq 1 ]
 then
-	if [ -f "$SETTINGS_FILE_PATH" ]
+        parse "$1"
+        if [ $? -eq 0 ]
 	then
-        	parse "$1"
-        	if [ $? -eq 0 ]
-		then
-			exit 0
-		else
-			echo "Paramètre de configuration cherché non trouvé !"
-			exit 1
-		fi
+		exit 0
 	else
-        	echo "Ficher $SETTINGS_FILE_PATH introuvable !"
-        	exit 1
+		echo "Paramètre de configuration cherché non trouvé !"
+		exit 1
 	fi
 else
 	echo "Clé du paramètre de configuration cherché non renseignée !"

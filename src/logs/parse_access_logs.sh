@@ -26,8 +26,6 @@ function parse() {
 	# Création du fichier de résultat.
 	if [ ! -f "$PARSED_LOGS_FILE_PATH" ]
 	then
-		# rm "$PARSED_LOGS_FILE_PATH"
-	#else
 		touch "$PARSED_LOGS_FILE_PATH"
                 chown root:root "$PARSED_LOGS_FILE_PATH"
                 chmod u=rw,g=,o= "$PARSED_LOGS_FILE_PATH"
@@ -50,10 +48,12 @@ function parse() {
  			local URI=$(echo $command | grep -o -E " .+ " | sed "s/ //g")
 			local HTTPVersion=$(echo $command | grep -o -E " [^ ]+$" | sed "s/ //g")
 
-			# TODO extraction client web, etc.
+			local returnCode=$(echo $line | grep -o -E "\" [0-9]+ " | sed "s/\"//g" | sed "s/ //g")
+
+			local client=$(echo $line | grep -o -E "\"[^\"]+\"$" | sed "s/\"//g")
 
 			# Envoi du résultat.
-			echo "$IPAddressClient;;$timestamp;;$method;;$URI;;$HTTPVersion" >> "$PARSED_LOGS_FILE_PATH"
+			echo "$IPAddressClient;;$timestamp;;$method;;$URI;;$HTTPVersion;;$returnCode;;$client" >> "$PARSED_LOGS_FILE_PATH"
 		fi
 
  		index=$((index + 1))

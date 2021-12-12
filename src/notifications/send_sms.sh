@@ -6,7 +6,8 @@
 
 # Constantes.
 GET_SETTING_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/settings/get_setting.sh"
-
+API_URL=$("$GET_SETTING_SCRIPT_PATH" "sms_textbelt_api_url")
+API_KEY=$("$GET_SETTING_SCRIPT_PATH" "sms_textbelt_api_key")
 
 # Envoyer un SMS.
 function send() {
@@ -23,17 +24,11 @@ function send() {
         # Recherche de la valeur de la clé d'accès à l'API.
 	local key=$("$GET_SETTING_SCRIPT_PATH" "sms_textbelt_api_key")
 
-	# Si clé de paramètre de configuration pas trouvée.
-	if [ $? -eq 1 ]
-	then
-		return 1
-	fi
-
 	# Envoi du sms.
-	local result=$(curl -X POST "https://textbelt.com/text" \
+	local result=$(curl -X POST "$API_URL" \
 	--data-urlencode phone="$phoneNumber" \
 	--data-urlencode message="$sms" \
-	-d key="$key" \
+	-d key="$API_KEY" \
 	--silent)
 
 	# Résultat de l'envoi.
