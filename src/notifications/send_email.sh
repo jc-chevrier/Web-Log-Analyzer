@@ -1,4 +1,4 @@
-#!/boin/bash
+#!/bin/bash
 
 
 # Script d'envoi d'e-mail.

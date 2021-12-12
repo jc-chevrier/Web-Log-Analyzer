@@ -55,7 +55,7 @@ function parse() {
 			local client=$(echo $line | grep -o -E "\"[^\"]+\"$" | sed "s/\"//g")
 
 			# Envoi du résultat.
-			echo "$IPAddressClient;;$datetime;;$timestamp;;$method;;$URI;;$HTTPVersion;;$returnCode;;$client" >> "$PARSED_LOGS_FILE_PATH"
+			echo "$IPAddressClient|$datetime|$timestamp|$method|$URI|$HTTPVersion|$returnCode|$client" >> "$PARSED_LOGS_FILE_PATH"
 		fi
 
  		index=$((index + 1))

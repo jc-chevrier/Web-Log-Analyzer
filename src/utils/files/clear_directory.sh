@@ -24,7 +24,7 @@ function clear() {
 # Exécution.
 if [ $# -eq 1 ]
 then
-	create "$1"
+	clear "$1"
 	exit $?
 else
 	echo "Chemin de dossier à nettoyer pas renseigné !"

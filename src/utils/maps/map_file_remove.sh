@@ -19,9 +19,12 @@ function remove() {
 	"$MAP_FILE_HAS_SCRIPT_PATH" "$mapFilePath" "$key"
 	if [ $? -eq 0 ]
 	then
-		sed -i -E "s/^${key}.+$//g" "$mapFilePath"
+		# Suppression de la ligne de la clé.
+		sed -i -E "/^${key}.+$/d" "$mapFilePath"
+		# Retour.
 		return 0
 	else
+		# Retour d'erreur.
 		return 1
 	fi
 }

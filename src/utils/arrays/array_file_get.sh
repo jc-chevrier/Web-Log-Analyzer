@@ -4,8 +4,8 @@
 # sous forme de fichier.
 
 
-# Chercher la cellule.
-function search() {
+# Obtenir une cellule.
+function get() {
 	# Paramètres de fonction.
 	arrayFilePath=$1
 	indexSearched=$2
@@ -34,7 +34,7 @@ function search() {
 # Exécution.
 if [ $# -eq 2 ]
 then
-	search "$1" $2
+	get "$1" $2
 	exit $?
 else
 	echo "Chemin du tableau et/ou index cherché non renseigné(s) !"

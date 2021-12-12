@@ -5,7 +5,7 @@
 
 
 # Constantes et scripts appelés.
-CREATE_FILE_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/utils/file/create_file.sh"
+CREATE_FILE_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/utils/files/create_file.sh"
 
 
 # Nettoyer un fichier.
@@ -31,7 +31,7 @@ function clear() {
 # Exécution.
 if [ $# -eq 1 ]
 then
-	create "$1"
+	clear "$1"
 	exit $?
 else
 	echo "Chemin de fichier à nettoyer pas renseigné !"
