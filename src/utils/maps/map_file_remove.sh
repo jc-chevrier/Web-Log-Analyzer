@@ -12,8 +12,8 @@ MAP_FILE_HAS_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/utils/maps/map_file_has.s
 # Supprimer un couple clé-valeur d'une table associative.
 function remove() {
 	# Paramètres de fonction.
-	mapFilePath=$1
-	key=$2
+	local mapFilePath=$1
+	local key=$2
 
 	# Si la clé existe.
 	"$MAP_FILE_HAS_SCRIPT_PATH" "$mapFilePath" "$key"
@@ -36,6 +36,6 @@ then
 	remove "$1" "$2"
 	exit $?
 else
-	echo "Chemin de la table associative et/ou séparateur et/ou clé et/ou valeur non renseigné(s) !"
+	echo "Chemin de la table associative et/ou clé non renseigné(s) !"
 	exit 1
 fi

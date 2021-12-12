@@ -7,18 +7,18 @@
 # Obtenir une cellule.
 function get() {
 	# Paramètres de fonction.
-	arrayFilePath=$1
-	indexSearched=$2
+	local arrayFilePath="$1"
+	local indexSearched=$2
 
 	# Recherche.
-	index=0
-	while read cell
+	local index=0
+	while read element
 	do
 		# Si l'index est atteint.
 		if [ $index -eq $indexSearched ]
 		then
 			# Envoi du résultat.
-			echo $cell
+			echo "$element"
 			# Retour.
 			return 0
 		fi

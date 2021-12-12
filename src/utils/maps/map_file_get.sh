@@ -11,12 +11,12 @@ ARRAY_LINE_GET_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/utils/arrays/array_line
 
 
 # Obtenir la valeur de la clé dans la table assciative.
-function getKey() {
+function get() {
         # Paramètres de fonction.
-        mapFilePath=$1
-        separator=$2
-	key=$3
-	indexPartValueSearched=$4
+        local mapFilePath=$1
+        local separator=$2
+	local key=$3
+	local indexPartValueSearched=$4
 
 	# Vérification de la clé.
 	"$MAP_FILE_HAS_SCRIPT_PATH" "$mapFilePath" "$key"
@@ -27,8 +27,8 @@ function getKey() {
 	fi
 
         # Recherche de valeur.
-        line=$(grep "$key" "$mapFilePath")
-        value=$("$ARRAY_LINE_GET_SCRIPT_PATH" "$line" "$separator" $indexPartValueSearched)
+        local line=$(grep "$key" "$mapFilePath")
+        local value=$("$ARRAY_LINE_GET_SCRIPT_PATH" "$line" "$separator" $indexPartValueSearched)
 	# Envoi de la valeur en résultat.
 	echo "$value"
 
@@ -40,7 +40,7 @@ function getKey() {
 # Exécution.
 if [ $# -eq 4 ]
 then
-        getKey "$1" "$2" "$3" $4
+        get "$1" "$2" "$3" $4
         exit $?
 else
         echo "Chemin de la table associative et/ou sépérateur et/ou clé et/ou index de valeur cherché non renseigné(s) !"

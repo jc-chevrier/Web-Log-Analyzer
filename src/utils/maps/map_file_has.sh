@@ -6,13 +6,13 @@
 
 
 # Savoir si la clé est contenue dans la table assciative.
-function hasKey() {
+function has() {
 	# Paramètres de fonction.
-	mapFilePath=$1
-	key=$2
+	local mapFilePath="$1"
+	local key="$2"
 
 	# Vérification.
-	count=$(grep -c "$key" "$mapFilePath")
+	local count=$(grep -c "$key" "$mapFilePath")
 	test $count -eq 1
 
 	# Retour.
@@ -23,7 +23,7 @@ function hasKey() {
 # Exécution.
 if [ $# -eq 2 ]
 then
-	hasKey "$1" "$2"
+	has "$1" "$2"
 	exit $?
 else
 	echo "Chemin de la table associative et/ou clé non renseigné(s) !"
