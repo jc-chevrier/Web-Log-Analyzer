@@ -104,9 +104,9 @@ function detectAndNotify() {
 		if [ $countRequest -ge $COUNT_REQUEST ]
 		then
 			# Message affiché.
-			echo -e "Alerte: attaque DDOS détectée pour l'adresse $IPAdressClient sur l'URI $URI : $countRequest requêtes !\n"
+			echo -e "Alerte: attaque DDOS détectée pour l'adresse IP $IPAddressClient sur l'URI $URI : $countRequest requêtes !\n"
 			subject="[Alerte de sécurité] Attaque DDOS détectée"
-			message="Bonjour,\n\n Une attaque DDOS vient d'être détectée sur votre serveur web. Elle a été effectuée par l'adresse $IPAddressClient sur l'URI $URI. $countRequest requêtes ont été faites.\n\nCordialement"
+			message="Bonjour,\n\nUne attaque DDOS vient d'être détectée sur votre serveur web. Elle a été effectuée par l'adresse IP $IPAddressClient sur l'URI $URI. $countRequest requêtes ont été détectées.\n\nCordialement"
 			# Notifications par e-mail.
 			"$SEND_EMAIL_SCRIPT_PATH" "$($LIST_USERS_EMAIL_ADDRESSES_SCRIPT_PATH)" "$subject" "$message"
 			# Notifications par sms.

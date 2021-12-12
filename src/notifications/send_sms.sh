@@ -13,15 +13,14 @@ API_KEY=$("$GET_SETTING_SCRIPT_PATH" "sms_textbelt_api_key")
 # Envoyer un SMS.
 function send() {
 	# Paramètres de fonction.
-	local phoneNumbers=$1
-	local sms=$2
+	local phoneNumbers="$1"
+	local sms="$2"
 
-	oldIFS=$IFS
+	oldIFS="$IFS"
 	IFS=" "
 	# Pour chaque numéro de téléphone.
 	for phoneNumber in $phoneNumbers
 	do
-		echo $phoneNumber
 		# Envoi du sms.
 		local result=$(curl -X POST "$API_URL" \
 		--data-urlencode phone="$phoneNumber" \
@@ -36,7 +35,7 @@ function send() {
 			return 1
 		fi
 	done
-	IFS=$oldIFS
+	IFS="$oldIFS"
 
 	# Retour.
 	return 0

@@ -28,3 +28,9 @@
 127.0.0.1|12/Dec/2021:08:36:00 -0800|1639326960|GET|/|HTTP/1.1|200|Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:95.0) Gecko/20100101 Firefox/95.0
 127.0.0.1|12/Dec/2021:08:36:00 -0800|1639326960|GET|/icons/ubuntu-logo.png|HTTP/1.1|200|Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:95.0) Gecko/20100101 Firefox/95.0
 127.0.0.1|12/Dec/2021:08:36:00 -0800|1639326960|GET|/favicon.ico|HTTP/1.1|404|Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:95.0) Gecko/20100101 Firefox/95.0
+127.0.0.1|12/Dec/2021:10:20:05 -0800|1639333205|GET|/|HTTP/1.1|200|Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:95.0) Gecko/20100101 Firefox/95.0
+127.0.0.1|12/Dec/2021:10:20:05 -0800|1639333205|GET|/icons/ubuntu-logo.png|HTTP/1.1|200|Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:95.0) Gecko/20100101 Firefox/95.0
+127.0.0.1|12/Dec/2021:10:20:05 -0800|1639333205|GET|/favicon.ico|HTTP/1.1|404|Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:95.0) Gecko/20100101 Firefox/95.0
+127.0.0.1|12/Dec/2021:10:20:08 -0800|1639333208|GET|/|HTTP/1.1|200|Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:95.0) Gecko/20100101 Firefox/95.0
+127.0.0.1|12/Dec/2021:10:20:08 -0800|1639333208|GET|/icons/ubuntu-logo.png|HTTP/1.1|200|Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:95.0) Gecko/20100101 Firefox/95.0
+127.0.0.1|12/Dec/2021:10:20:08 -0800|1639333208|GET|/favicon.ico|HTTP/1.1|404|Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:95.0) Gecko/20100101 Firefox/95.0
