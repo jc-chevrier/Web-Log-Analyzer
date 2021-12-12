@@ -1,2 +1,5 @@
-127.0.0.1;;11/Dec/2021:05:32:16;;GET;;/;;HTTP/1.1;;200;;Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:94.0) Gecko/20100101 Firefox/94.0
-127.0.0.1;;11/Dec/2021:05:32:23;;GET;;/;;HTTP/1.1;;200;;Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:94.0) Gecko/20100101 Firefox/94.0
+127.0.0.1;;11/Dec/2021:05:32:16 -0800;;1639229536;;GET;;/;;HTTP/1.1;;200;;Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:94.0) Gecko/20100101 Firefox/94.0
+127.0.0.1;;11/Dec/2021:05:32:23 -0800;;1639229543;;GET;;/;;HTTP/1.1;;200;;Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:94.0) Gecko/20100101 Firefox/94.0
+127.0.0.1;;11/Dec/2021:16:54:47 -0800;;1639270487;;GET;;/;;HTTP/1.1;;200;;Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:94.0) Gecko/20100101 Firefox/94.0
+127.0.0.1;;11/Dec/2021:16:54:47 -0800;;1639270487;;GET;;/icons/ubuntu-logo.png;;HTTP/1.1;;200;;Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:94.0) Gecko/20100101 Firefox/94.0
+127.0.0.1;;11/Dec/2021:16:54:47 -0800;;1639270487;;GET;;/favicon.ico;;HTTP/1.1;;404;;Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:94.0) Gecko/20100101 Firefox/94.0

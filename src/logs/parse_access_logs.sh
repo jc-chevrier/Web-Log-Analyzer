@@ -41,7 +41,10 @@ function parse() {
 			# Extraction.
  			local IPAddressClient=$(echo $line | grep -o -E "^([0-9]{1,3}\.){3}[0-9]{1,3}")
 
- 			local timestamp=$(echo $line | grep -o -E "\[[^ ]+" | sed "s/\[//g")
+ 			local datetime=$(echo $line | grep -o -E "\[.+\]" | sed "s/\[//g" | sed "s/\]//g")
+			local timestamp=$(echo "$datetime" | sed -e "s,/,-,g" -e "s,:, ,")
+			timestamp=$(date -d "$timestamp" +"%s")
+			echo $timestamp
 
  			local command=$(echo $line | grep -o -E "\".+\"" | grep -o -E "^\"[^\"]+" | sed "s/\"//g")
  			local method=$(echo $command | grep -o -E "^[^ ]+")
@@ -53,7 +56,7 @@ function parse() {
 			local client=$(echo $line | grep -o -E "\"[^\"]+\"$" | sed "s/\"//g")
 
 			# Envoi du résultat.
-			echo "$IPAddressClient;;$timestamp;;$method;;$URI;;$HTTPVersion;;$returnCode;;$client" >> "$PARSED_LOGS_FILE_PATH"
+			echo "$IPAddressClient;;$datetime;;$timestamp;;$method;;$URI;;$HTTPVersion;;$returnCode;;$client" >> "$PARSED_LOGS_FILE_PATH"
 		fi
 
  		index=$((index + 1))
