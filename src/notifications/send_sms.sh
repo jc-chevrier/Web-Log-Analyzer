@@ -9,35 +9,37 @@ GET_SETTING_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/settings/get_setting.sh"
 API_URL=$("$GET_SETTING_SCRIPT_PATH" "sms_textbelt_api_url")
 API_KEY=$("$GET_SETTING_SCRIPT_PATH" "sms_textbelt_api_key")
 
+
 # Envoyer un SMS.
 function send() {
-	# Paramètres.
-	local phoneNumber=$1
+	# Paramètres de fonction.
+	local phoneNumbers=$1
 	local sms=$2
 
-	# Si script de recherche de paramètre de configuration trouvé.
-	if [ ! -f "$GET_SETTING_SCRIPT_PATH" ]
-	then
-		return 1
-	fi
+	oldIFS=$IFS
+	IFS=" "
+	# Pour chaque numéro de téléphone.
+	for phoneNumber in $phoneNumbers
+	do
+		echo $phoneNumber
+		# Envoi du sms.
+		local result=$(curl -X POST "$API_URL" \
+		--data-urlencode phone="$phoneNumber" \
+		--data-urlencode message="$(echo -e $sms)" \
+		-d key="$API_KEY" \
+		--silent)
 
-        # Recherche de la valeur de la clé d'accès à l'API.
-	local key=$("$GET_SETTING_SCRIPT_PATH" "sms_textbelt_api_key")
+		# Retour d'erreur.
+		# Vérification de la réussite de l'envoi du sms.
+		if [ $? -eq 1 -o $(echo $result | grep -c -E "{\"success\":false,") -eq 1 ]
+		then
+			return 1
+		fi
+	done
+	IFS=$oldIFS
 
-	# Envoi du sms.
-	local result=$(curl -X POST "$API_URL" \
-	--data-urlencode phone="$phoneNumber" \
-	--data-urlencode message="$sms" \
-	-d key="$API_KEY" \
-	--silent)
-
-	# Résultat de l'envoi.
-	if [ $? -eq 1 ]
-	then
-		return 1
-	else
-		return $(echo $result | grep -c -E "{\"success\":false,")
-	fi
+	# Retour.
+	return 0
 }
 
 
@@ -53,6 +55,6 @@ then
 		exit 1
 	fi
 else
-	echo "Numéro de téléphone et/ou contenu du SMS non renseigné(s) !"
+	echo "Numéro(s) de téléphone et/ou contenu du SMS non renseigné(s) !"
 	exit 1
 fi
