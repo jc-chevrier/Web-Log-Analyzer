@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-# Script pour obtenir la valeur associée à une clé dans une table
+# Script de recherche de la valeur associée à une clé dans une table
 # associative sous forme de fichier.
 
 
@@ -10,12 +10,12 @@ MAP_FILE_HAS_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/utils/maps/map_file_has.s
 ARRAY_LINE_GET_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/utils/arrays/array_line_get.sh"
 
 
-# Obtenir la valeur de la clé dans la table assciative.
+# Obtenir la valeur d'une clé dans une table associative.
 function get() {
         # Paramètres de fonction.
-        local mapFilePath=$1
-        local separator=$2
-	local key=$3
+        local mapFilePath="$1"
+        local separator="$2"
+	local key="$3"
 	local indexPartValueSearched=$4
 
 	# Vérification de la clé.

@@ -8,29 +8,21 @@
 USERS_FILE_PATH="${WEB_LOG_ANALYZER_PATH}/conf/users"
 
 
+# Scripts externes.
+ARRAY_LINE_GET_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/utils/arrays/array_line_get.sh"
+
+
 # Fonction d'extraction des données.
 function parse() {
 	# Paramètres.
-	local indexDataSelected=$1
+	local indexDataUserSearched=$1
 
         # Extraction pour chaque utilisateur.
         local datasUsers=""
         while read user;
         do
-                local oldIFS=$IFS
-                IFS=";"
-                local index=0
-                for dataUser in $user
-                do
-                        if [ $index -eq $indexDataSelected ]
-                        then
-                                datasUsers="$dataUser $datasUsers"
-                                break
-                        else
-                                index=$((index + 1))
-                        fi
-                done
-                IFS=$oldIFS
+		local dataUser=$("$ARRAY_LINE_GET_SCRIPT_PATH" "$user" ";" $indexDataUserSearched)
+                datasUsers="$dataUser $datasUsers"
         done < "$USERS_FILE_PATH"
 
         # Envoi du résultat.

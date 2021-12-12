@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-# Script pour savoir la taille d'une table assoctative
+# Script pour calculer la taille d'une table assoctative
 # sous forme de fichier.
 
 

@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# Script de recherche de cellule dans un tableau
+# Script de recherche d'un élément dans un tableau
 # sous forme de fichier.
 
 
-# Obtenir une cellule.
+# Obtenir un élément d'un tableau.
 function get() {
 	# Paramètres de fonction.
 	local arrayFilePath="$1"
@@ -12,13 +12,13 @@ function get() {
 
 	# Recherche.
 	local index=0
-	while read element
+	while read value
 	do
 		# Si l'index est atteint.
 		if [ $index -eq $indexSearched ]
 		then
 			# Envoi du résultat.
-			echo "$element"
+			echo "$value"
 			# Retour.
 			return 0
 		fi

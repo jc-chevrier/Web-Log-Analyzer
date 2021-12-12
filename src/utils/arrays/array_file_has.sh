@@ -1,8 +1,8 @@
 #!/bin/bash
 
 
-# Script pour obtenir la taille d'un tableau sous
-# forme de fichier.
+# Script pour savoir si un tableau sous forme de
+# fichier contient une clé.
 
 
 # Scripts externes

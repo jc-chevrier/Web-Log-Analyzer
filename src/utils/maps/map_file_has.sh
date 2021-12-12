@@ -5,7 +5,8 @@
 # forme de fichier contient une clé.
 
 
-# Savoir si la clé est contenue dans la table assciative.
+# Savoir si une clé est contenue dans une table
+# associative.
 function has() {
 	# Paramètres de fonction.
 	local mapFilePath="$1"

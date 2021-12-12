@@ -10,5 +10,5 @@ USER_LIST_DATA_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/users/list_users_datas.
 
 
 # Exécution.
-bash "$USER_LIST_DATA_SCRIPT_PATH" 0
+"$USER_LIST_DATA_SCRIPT_PATH" 0
 exit $?
