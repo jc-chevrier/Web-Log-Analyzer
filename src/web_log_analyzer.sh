@@ -9,5 +9,5 @@ DETECT_ATTACKS_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/attacks/detect_attacks.
 
 
 # Exécution.
-bash "$DETECT_ATTACKS_SCRIPT_PATH"
+"$DETECT_ATTACKS_SCRIPT_PATH"
 exit $?
