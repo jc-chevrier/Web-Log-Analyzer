@@ -3,3 +3,4 @@ remplace dans les sed par des | ?
 terminer d'implémenter les structures de données
 retirer les "bash"
 résoudre le problème des accumulations des "/"
+trouver un moyen pour ne pas renotifier les attaques déjà antérieurement détectées
