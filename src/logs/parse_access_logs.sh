@@ -44,7 +44,6 @@ function parse() {
  			local datetime=$(echo $line | grep -o -E "\[.+\]" | sed "s/\[//g" | sed "s/\]//g")
 			local timestamp=$(echo "$datetime" | sed -e "s,/,-,g" -e "s,:, ,")
 			timestamp=$(date -d "$timestamp" +"%s")
-			echo $timestamp
 
  			local command=$(echo $line | grep -o -E "\".+\"" | grep -o -E "^\"[^\"]+" | sed "s/\"//g")
  			local method=$(echo $command | grep -o -E "^[^ ]+")
