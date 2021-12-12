@@ -4,20 +4,20 @@
 # Script de nettoyage d'un fichier.
 
 
-# Constantes et scripts appelés.
+# Scripts externes.
 CREATE_FILE_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/utils/files/create_file.sh"
 
 
 # Nettoyer un fichier.
 function clear() {
 	# Paramètres de fonction.
-	local filePath=$1
+	local filePath="$1"
 
 	# Si le fichier existe.
-	if [ -f $filePath ]
+	if [ -f "$filePath" ]
 	then
 		# Suppression du fichier.
-		rm $filePath
+		rm "$filePath"
 	fi
 
 	# Création d'un fichier.

@@ -7,7 +7,7 @@
 # Créer un fichier.
 function create() {
 	# Paramètres de fonction.
-	local filePath=$1
+	local filePath="$1"
 
 	# Si le fichier n'existe pas.
 	if [ ! -f "$filePath" ]

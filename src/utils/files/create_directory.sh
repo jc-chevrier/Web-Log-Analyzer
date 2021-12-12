@@ -7,7 +7,7 @@
 # Créer un dossier.
 function create() {
 	# Paramètres de fonction.
-	local directoryPath=$1
+	local directoryPath="$1"
 
 	# Si le dossier n'existe pas.
 	if [ ! -d "$directoryPath" ]

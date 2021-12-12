@@ -7,13 +7,13 @@
 # Nettoyer un dossier.
 function clear() {
 	# Paramètres.
-	local directoryPath=$1
+	local directoryPath="$1"
 
 	# Si le dossier existe.
-	if [ -d $directoryPath ]
+	if [ -d "$directoryPath" ]
 	then
 		# Suppression des fichiers du dossier.
-		rm $directoryPath/*
+		rm "$directoryPath/*"
 	fi
 
 	# Retour.
