@@ -33,14 +33,14 @@ function filter() {
 	local datetimeNow=$(date +%s)
 	local timestampNow=$(date -d @$datetimeNow)
 
-	# Filtrage des logs pour ne conserver que ceux
-	# qui sont dans l'intervalle de temps de surveillance.
+	# Filtrage des logs d'accès pour ne conserver que ceux
+	# qui sont dans l'intervalle de temps de d'étude.
 	while read line
 	do
 		# Récupération des informations du log.
-		IPAddressClient=$("$ARRAY_LINE_GET_CELL_SCRIPT_PATH" "$line" ";;" 0)
-                timestamp=$("$ARRAY_LINE_GET_CELL_SCRIPT_PATH" "$line" ";;" 2)
-		URI=$("$ARRAY_LINE_GET_CELL_SCRIPT_PATH" ";;" 4)
+		IPAddressClient=$("$ARRAY_LINE_GET_SCRIPT_PATH" "$line" ";;" 0)
+                timestamp=$("$ARRAY_LINE_GET_SCRIPT_PATH" "$line" ";;" 2)
+		URI=$("$ARRAY_LINE_GET_SCRIPT_PATH" "$line" ";;" 4)
 		# Si le log est a eu lieu dans l"intervalle de
 		# temps de surveillance.
 		if [ $((timestampNow - timestamp)) -le $INTERVAL ]
@@ -48,6 +48,8 @@ function filter() {
 			echo "$IPAddressClient;$URI"  >> "$FILTERED_ACCESS_LOGS_FILE_PATH"
 		fi
 	done < "PARSED_ACCESS_LOGS_FILE_PATH"
+
+	# Retour.
 	return 0
 }
 
@@ -58,23 +60,26 @@ function accumulate() {
 	# Nettoyage du fichier des logs d'accès accumulés.
         "$CLEAR_FILE_SCRIPT_PATH" "$ACCUMULATED_ACCESS_LOGS_FILE_PATH"
 
-	# Pour chaque ligne de logs d'accès filtrés.
+	# Pour chaque ligne des logs d'accès filtrés.
 	while read line
 	do
 		# Récupération des informations du log d'accès filtré.
 		local IPAddressClient=$("$ARRAY_LINE_GET_CELL_SCRIPT_PATH" "$line" ";" 0)
 		local URI=$("$ARRAY_LINE_GET_CELL_SCRIPT_PATH" "$line" ";" 1)
 		# Accumulation des logs d'accès filtrés.
-		local countRequest=1
+		local countRequest
 		"$MAP_FILE_HAS_SCRIPT_FILE" "$ACCUMULATED_ACCESS_LOGS_FILE_PATH" "$IPAddressClient;$URI"
 		if [ $? -eq 0 ]
 		then
-			local tmpCountRequqest=$("$MAP_FILE_GET_SCRIPT_FILE" "$ACCUMULATED_ACCESS_LOGS_FILE_PATH" "$IPAddressClient;$URI")
-			countRequest=$((countRequest + tmpCountRequest))
+			countRequqest=$("$MAP_FILE_GET_SCRIPT_FILE" "$ACCUMULATED_ACCESS_LOGS_FILE_PATH" ";" "$IPAddressClient;$URI" 2)
+			countRequest=$((countRequest + 1))
+		else
+			countRequest=1
 		fi
 		"$MAP_FILE_PUT_SCRIPT_FILE" "$ACCUMULATED_ACCESS_LOGS_FILE_PATH" ";" "$IPAddressClient;$URI" "$countRequest"
 	done < "FILTERED_ACCESS_LOGS_FILE_PATH"
 
+	# Retour.
 	return 0
 }
 
@@ -82,28 +87,31 @@ function accumulate() {
 # Détecter les attaques DDOS, les afficher et notifier
 # les responsables sécurité par sms et e-mail.
 function detectAndNotify() {
-	# Pour chaque ligne de logs d'accès accumulés.
+	# Pour chaque ligne des logs d'accès accumulés.
         while read line
         do
                 # Récupération des informations des logs d'accès accumulés.
-                local IPAddressClient=$("$ARRAY_LINE_GET_CELL_SCRIPT_PATH" "$line" ";" 0)
-                local URI=$("$ARRAY_LINE_GET_CELL_SCRIPT_PATH" "$line" ";" 1)
-                local countRequest=$("$ARRAY_LINE_GET_CELL_SCRIPT_PATH" "$line" ";" 2)
+                local IPAddressClient=$("$ARRAY_LINE_GET_SCRIPT_PATH" "$line" ";" 0)
+                local URI=$("$ARRAY_LINE_GET_SCRIPT_PATH" "$line" ";" 1)
+                local countRequest=$("$ARRAY_LINE_GET_SCRIPT_PATH" "$line" ";" 2)
 		# Vérification des logs d'accès accumulés.
 		# Si le nombre de requête qui a été fait sur l'intervalle a atteint le nombre de
 		# requêtes définnissant les attaques DDOS.
 		if [ $countRequest -ge $COUNT_REQUEST ]
 		then
 			# Message affiché.
-			echo "Alerte ! Attaque DDOS détectée pour l'adresse $IPAdressClient sur l'URI $URI : $countRequest requêtes."
+			echo "Alerte: attaque DDOS détectée pour l'adresse $IPAdressClient sur l'URI $URI : $countRequest requêtes !"
 			subject="[Alerte de sécurité] Attaque DDOS détectée"
 			message="Bonjour,\n\n Une attaque DDOS vient d'être détectée sur votre serveur web. Elle a été effectuée par l'adresse $IPAddressClient sur l'URI $URI. $countRequest requêtes ont été faites.\n\nCordialement"
 			# Notifications par e-mail.
 			bash "$SEND_EMAIL_SCRIPT_PATH" "$(bash '$LIST_USERS_EMAIL_ADDRESSES_SCRIPT_PATH')" "$subject" "$message"
 			# Notifications par sms.
-			bash "$SEND_SMS_SCRIPT_PATH" "$(bash '$LIST_USERS_PHONE_NUMBERS_SCRIPT_PATH')" "$subject\n\n$message"
+			#bash "$SEND_SMS_SCRIPT_PATH" "$(bash '$LIST_USERS_PHONE_NUMBERS_SCRIPT_PATH')" "$subject\n\n$message"
 		fi
         done < "ACCUMULATED_ACCESS_LOGS_FILE_PATH"
+
+	# Retour.
+	return 0
 }
 
 

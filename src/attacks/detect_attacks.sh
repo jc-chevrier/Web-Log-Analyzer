@@ -19,9 +19,8 @@ function main() {
 		rm "$PARSED_ACCESS_LOGS_FILE_PATH"
 	fi
 
+	# Tant que la fonction n'est pas stoppée.
 	local index=0
-
-	#  Tant que la fonction n'est pas stoppée.
 	while [ 0 ]
 	do
 		# Extraction des logs.
@@ -33,6 +32,8 @@ function main() {
 		# Préparation de l'itération suivante.
 		index=$(wc -l "$ACCESS_LOGS_FILE_PATH" | grep -o -E "^[0-9]+ " | sed "s/ //g")
 		index=$((index + 1))
+
+		break
 	done
 
 	return 0
