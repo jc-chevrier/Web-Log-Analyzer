@@ -10,12 +10,13 @@ CREATE_FILE_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/utils/file/create_file.sh"
 
 # Nettoyer un fichier.
 function clear() {
-	# Paramètres.
-	filePath=$1
+	# Paramètres de fonction.
+	local filePath=$1
 
-	# Suppression du fichier.
+	# Si le fichier existe.
 	if [ -f $filePath ]
 	then
+		# Suppression du fichier.
 		rm $filePath
 	fi
 

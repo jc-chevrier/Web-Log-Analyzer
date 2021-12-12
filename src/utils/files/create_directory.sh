@@ -6,8 +6,10 @@
 
 # Créer un dossier.
 function create() {
-	directoryPath=$1
+	# Paramètres de fonction.
+	local directoryPath=$1
 
+	# Si le dossier n'existe pas.
 	if [ ! -d "$directoryPath" ]
 	then
 		mkdir "directoryPath"
@@ -15,6 +17,7 @@ function create() {
                 chmod u=rwx,g=,o= "$directoryPath"
 	fi
 
+	# Retour.
 	return 0
 }
 

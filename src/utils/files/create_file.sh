@@ -6,8 +6,10 @@
 
 # Créer un fichier.
 function create() {
-	filePath=$1
+	# Paramètres de fonction.
+	local filePath=$1
 
+	# Si le fichier n'existe pas.
 	if [ ! -f "$filePath" ]
 	then
 		touch "$filePath"
@@ -15,6 +17,7 @@ function create() {
                 chmod u=rw,g=,o= "$filePath"
 	fi
 
+	# Retour.
 	return 0
 }
 
