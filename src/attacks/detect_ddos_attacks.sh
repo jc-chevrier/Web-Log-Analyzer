@@ -6,7 +6,7 @@
 
 # Scripts externes.
 GET_SETTING_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/settings/get_setting.sh"
-ARRAY_LINE_GET_CELL_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/utils/array/array_line_get_cell.sh"
+ARRAY_LINE_GET_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/utils/array/array_line_get.sh"
 CLEAR_FILE_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/utils/files/clear_file.sh"
 LIST_USERS_EMAIL_ADDRESSES_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/users/list_users_email_addresses.sh"
 LIST_USERS_PHONE_NUMBERS_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/users/list_users_phone_numbers.sh"
@@ -48,7 +48,6 @@ function filter() {
 			echo "$IPAddressClient;$URI"  >> "$FILTERED_ACCESS_LOGS_FILE_PATH"
 		fi
 	done < "PARSED_ACCESS_LOGS_FILE_PATH"
-
 	return 0
 }
 
@@ -62,18 +61,18 @@ function accumulate() {
 	# Pour chaque ligne de logs d'accès filtrés.
 	while read line
 	do
-		# Récupération des informations du log.
-		local IPClientAddress=$("$ARRAY_LINE_GET_CELL_SCRIPT_PATH" "$line" ";" 0)
+		# Récupération des informations du log d'accès filtré.
+		local IPAddressClient=$("$ARRAY_LINE_GET_CELL_SCRIPT_PATH" "$line" ";" 0)
 		local URI=$("$ARRAY_LINE_GET_CELL_SCRIPT_PATH" "$line" ";" 1)
-		# Accumulation des logs .
-		if [ $(grep -c -E "^$ipClientAddress;$uri;[0-9]+$" "$ACCUMULATED_ACCESS_LOFS_FILE_PATH") -eq 1 ]
+		# Accumulation des logs d'accès filtrés.
+		local countRequest=1
+		"$MAP_FILE_HAS_SCRIPT_FILE" "$ACCUMULATED_ACCESS_LOGS_FILE_PATH" "$IPAddressClient;$URI"
+		if [ $? -eq 0 ]
 		then
-			local countAccess=$(grep -o -E "^$ipClientAddress;$uri;[0-9]+$" "$ACCUMULATED_ACCESS_LOFS_FILE_PATH" | grep -o -E ";[0-9]+$" | sed "s/;//g")
-			countAccess=$((countAccess + 1))
-			sed "s/^$ipClientAddress;$uri;[0-9]+$/^$ipClientAddress;$uri;$countAccess$/g" "$ACCUMULATED_ACCESS_LOGS_FILE_PATH"
-		else
-                        echo "$ipClientAddress;$uri;1" >> "$ACCUMULATED_ACCESS_LOGS_FILE_PATH"
+			local tmpCountRequqest=$("$MAP_FILE_GET_SCRIPT_FILE" "$ACCUMULATED_ACCESS_LOGS_FILE_PATH" "$IPAddressClient;$URI")
+			countRequest=$((countRequest + tmpCountRequest))
 		fi
+		"$MAP_FILE_PUT_SCRIPT_FILE" "$ACCUMULATED_ACCESS_LOGS_FILE_PATH" ";" "$IPAddressClient;$URI" "$countRequest"
 	done < "FILTERED_ACCESS_LOGS_FILE_PATH"
 
 	return 0
@@ -82,17 +81,17 @@ function accumulate() {
 
 # Détecter les attaques DDOS, les afficher et notifier
 # les responsables sécurité par sms et e-mail.
-function detect() {
+function detectAndNotify() {
 	# Pour chaque ligne de logs d'accès accumulés.
         while read line
         do
-                # Récupération des informations du log.
-                local IPClientAddress=$("$ARRAY_LINE_GET_CELL_SCRIPT_PATH" "$line" ";" 0)
+                # Récupération des informations des logs d'accès accumulés.
+                local IPAddressClient=$("$ARRAY_LINE_GET_CELL_SCRIPT_PATH" "$line" ";" 0)
                 local URI=$("$ARRAY_LINE_GET_CELL_SCRIPT_PATH" "$line" ";" 1)
                 local countRequest=$("$ARRAY_LINE_GET_CELL_SCRIPT_PATH" "$line" ";" 2)
-		# Vérification des logs accmulés.
-		# Si le nombre de requptes qui a été fait sur l'intervalle a atteint le nombre de
-		# requêtes définnsant les attaques DDOS.
+		# Vérification des logs d'accès accumulés.
+		# Si le nombre de requête qui a été fait sur l'intervalle a atteint le nombre de
+		# requêtes définnissant les attaques DDOS.
 		if [ $countRequest -ge $COUNT_REQUEST ]
 		then
 			# Message affiché.
@@ -109,5 +108,5 @@ function detect() {
 
 
 # Exécution.
-filter && accumulate && detect
+filter && accumulate && detectAndNotify
 exit $?

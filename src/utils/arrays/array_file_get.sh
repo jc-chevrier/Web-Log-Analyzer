@@ -1,21 +1,18 @@
 #!/bin/bash
 
 # Script de recherche de cellule dans un tableau
-# sous forme de ligne.
+# sous forme de fichier.
 
 
 # Chercher la cellule.
 function search() {
-	# Paramètres.
-	arrayLine=$1
-	separator=$2
-	indexSearched=$3
+	# Paramètres de fonction.
+	arrayFilePath=$1
+	indexSearched=$2
 
 	# Recherche.
-	oldIFS=$IFS
-	IFS=$separator
 	index=0
-	for cell in arrayLine
+	while read cell
 	do
 		# Si l'index est atteint.
 		if [ $index -eq $indexSearched ]
@@ -27,8 +24,7 @@ function search() {
 		fi
 		# Incrémentation de l'index.
 		index=$((index + 1))
-	done
-	IFS=$oldIFS
+	done < "$arrayFilePath"
 
 	# Retour d'erreur si index non trouvé.
 	return 1
@@ -36,11 +32,11 @@ function search() {
 
 
 # Exécution.
-if [ $# -eq 3 ]
+if [ $# -eq 2 ]
 then
-	search "$1" "$2" '$3'
+	search "$1" $2
 	exit $?
 else
-	echo "Tableau et/ou séparateur et/ou index cherché non renseigné(s) !"
+	echo "Chemin du tableau et/ou index cherché non renseigné(s) !"
 	exit 1
 fi
