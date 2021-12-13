@@ -10,10 +10,11 @@
 function has() {
 	# Paramètres de fonction.
 	local mapFilePath="$1"
-	local key="$2"
+	local separator="$2"
+	local key="$3"
 
 	# Vérification.
-	local count=$(grep -c "$key" "$mapFilePath")
+	local count=$(grep -c "$key$separator" "$mapFilePath")
 	test $count -eq 1
 
 	# Retour.
@@ -22,11 +23,11 @@ function has() {
 
 
 # Exécution.
-if [ $# -eq 2 ]
+if [ $# -eq 3 ]
 then
-	has "$1" "$2"
+	has "$1" "$2" "$3"
 	exit $?
 else
-	echo "Chemin de la table associative et/ou clé non renseigné(s) !"
+	echo "Chemin de la table associative et/ou séparateur et/ou clé non renseigné(s) !"
 	exit 1
 fi

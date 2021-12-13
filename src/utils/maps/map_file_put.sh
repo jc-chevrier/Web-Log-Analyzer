@@ -19,10 +19,10 @@ function put() {
 	local value="$4"
 
 	# Si la clé existe déjà.
-	"$MAP_FILE_HAS_SCRIPT_PATH" "$mapFilePath" "$key"
+	"$MAP_FILE_HAS_SCRIPT_PATH" "$mapFilePath" "$separator" "$key"
 	if [ $? -eq 0 ]
 	then
-		sed -i -E "s|^${key}.+$|${key}${separator}${value}|g" "$mapFilePath"
+		sed -i -E "s|^${key}${separator}.+$|${key}${separator}${value}|g" "$mapFilePath"
 	else
 		echo "$key$separator$value" >> "$mapFilePath"
 	fi

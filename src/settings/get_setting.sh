@@ -19,7 +19,7 @@ function get() {
 	local keySearched="$1"
 
 	# Si la clé cherchée existe.
-	"$MAP_FILE_HAS_SCRIPT_PATH" "$SETTINGS_FILE_PATH" "$keySearched"
+	"$MAP_FILE_HAS_SCRIPT_PATH" "$SETTINGS_FILE_PATH" "=" "$keySearched"
         if [ $? -eq 0 ]
 	then
 		# Envoi de la valeur.

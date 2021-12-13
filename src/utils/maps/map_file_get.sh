@@ -19,7 +19,7 @@ function get() {
 	local indexPartValueSearched=$4
 
 	# Vérification de la clé.
-	"$MAP_FILE_HAS_SCRIPT_PATH" "$mapFilePath" "$key"
+	"$MAP_FILE_HAS_SCRIPT_PATH" "$mapFilePath" "$separator" "$key"
 	if [ $? -eq 1 ]
 	then
 		# Retour d'erreur.
@@ -27,7 +27,7 @@ function get() {
 	fi
 
         # Recherche de valeur.
-        local line=$(grep "$key" "$mapFilePath")
+        local line=$(grep "$key$separator" "$mapFilePath")
         local value=$("$ARRAY_LINE_GET_SCRIPT_PATH" "$line" "$separator" $indexPartValueSearched)
 	# Envoi de la valeur en résultat.
 	echo "$value"
