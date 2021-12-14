@@ -10,26 +10,21 @@ PARSED_LOGS_FILE_PATH="${WEB_LOG_ANALYZER_PATH}/tmp/parsed_access_logs"
 TEMPORARY_DIRECTORY_PATH="${WEB_LOG_ANALYZER_PATH}/tmp"
 
 
+# Scripts externes.
+CREATE_DIRECTORY_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/utils/files/create_directory.sh"
+CREATE_FILE_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/utils/files/create_file.sh"
+
+
 # Fonction d'extraction des logs.
 function parse() {
 	# Paramètres.
 	local indexStart=$1
 
-	# Création du dossier des données temporaires.
-	if [ ! -d "$TEMPORARY_DIRECTORY_PATH" ]
-	then
-		mkdir "$TEMPORARY_DIRECTORY_PATH"
-		chown root:root "$TEMPORARY_DIRECTORY_PATH"
-		chmod u=rw,g=,o= "$TEMPORARY_DIRECTORY_PATH"
-	fi
+        # Création du dossier de résultat.
+        "$CREATE_DIRECTORY_SCRIPT_PATH" "$TEMPORARY_DIRECTORY_PATH"
 
 	# Création du fichier de résultat.
-	if [ ! -f "$PARSED_LOGS_FILE_PATH" ]
-	then
-		touch "$PARSED_LOGS_FILE_PATH"
-                chown root:root "$PARSED_LOGS_FILE_PATH"
-                chmod u=rw,g=,o= "$PARSED_LOGS_FILE_PATH"
-	fi
+	"$CREATE_FILE_SCRIPT_PATH" "$PARSED_LOGS_FILE_PATH"
 
 	# Pour chaque ligne des logs.
 	local index=0

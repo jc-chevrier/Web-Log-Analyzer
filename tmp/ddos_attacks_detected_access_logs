@@ -1,0 +1,7 @@
+127.0.0.1;/test/test.txt;
+127.0.0.1;/favicon.ico;
+127.0.0.1;/test/test2.txt;
+127.0.0.1;/;
+127.0.0.1;/icons/ubuntu-logo.png;
+127.0.0.1;/test/test%22.txt;
+127.0.0.1;/test/test%22.txtv;

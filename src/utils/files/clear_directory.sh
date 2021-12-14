@@ -10,10 +10,10 @@ function clear() {
 	local directoryPath="$1"
 
 	# Si le dossier existe.
-	if [ -d "$directoryPath" -a -f  "$directoryPath/"* ]
+	if [ -d "$directoryPath" ]
 	then
 		# Suppression des fichiers du dossier.
-		rm "$directoryPath/"*
+		rm -rf "$directoryPath/"*
 	fi
 
 	# Retour.

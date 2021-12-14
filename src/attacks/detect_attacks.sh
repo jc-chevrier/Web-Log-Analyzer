@@ -36,10 +36,8 @@ function detect() {
 		"$DETECT_DDOS_ATTACKS_SCRIPT_PATH"
 
 		# Préparation de l'itération suivante.
-		index=$("$ARRAY_FILE_COUNT_SCRIPT_PATH" "$ACCESS_LOGS_FILE_PATH")
-		index=$((index + 1))
-
-		break
+                index=$("$ARRAY_FILE_COUNT_SCRIPT_PATH" "$PARSED_ACCESS_LOGS_FILE_PATH")
+                index=$((index + 1))
 	done
 
 	return 0
