@@ -124,9 +124,13 @@ function accumulate() {
 }
 
 
-# Détecter les attaques DDOS, les afficher et notifier
-# les responsables sécurité par sms et e-mail.
+# Détecter les attaques DDOS, les afficher, et notifier
+# les responsables sécurité par sms et e-mail, et retenir
+# les attaques..
 function detect() {
+        # Date courante.
+        local timestampNow=$(date +%s)
+
 	# Pour chaque ligne des logs d'accès accumulés.
         while read line
         do

@@ -12,7 +12,7 @@ function create() {
 	# Si le dossier n'existe pas.
 	if [ ! -d "$directoryPath" ]
 	then
-		mkdir "directoryPath"
+		mkdir "$directoryPath"
                 chown root:root "$directoryPath"
                 chmod u=rwx,g=,o= "$directoryPath"
 	fi
