@@ -23,7 +23,7 @@ function remove() {
 # Exécution.
 if [ $# -eq 2 ]
 then
-	set "$1" $2
+	remove "$1" $2
 	exit $?
 else
 	echo "Chemin du fichier du tableau et/ou index non resneigné(s) !"
