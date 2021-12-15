@@ -28,6 +28,6 @@ then
 	has "$1" "$2" "$3"
 	exit $?
 else
-	echo "Chemin de la table associative et/ou séparateur et/ou clé non renseigné(s) !"
+	echo "Chemin du fichier de la table associative et/ou séparateur et/ou clé non renseigné(s) !"
 	exit 1
 fi

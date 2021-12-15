@@ -2,7 +2,7 @@
 
 
 # Script d'ajout d'un élément à un tableau sous
-# forme de fichier.
+# forme de ligne.
 
 
 # Ajouter un élément à un tableau.
@@ -31,6 +31,6 @@ then
 	add "$1" "$2" "$3"
 	exit $?
 else
-	echo "Chemin du fichier du tableau et/ou élément non resneigné(s) !"
+	echo "Tableau et/ou séparateur et/ou valeur non resneigné(s) !"
 	exit 1
 fi

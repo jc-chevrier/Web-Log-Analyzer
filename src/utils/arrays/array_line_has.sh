@@ -2,7 +2,7 @@
 
 
 # Script pour savoir si un tableau sous forme de
-# fichier contient un élément.
+# ligne contient un élément.
 
 
 # Scripts externes

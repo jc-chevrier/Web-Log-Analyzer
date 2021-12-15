@@ -34,6 +34,6 @@ then
 	count "$1" "$2"
 	exit $?
 else
-	echo "Chemin du fichier du tableau et/ou séparateur non renseigné(s) !"
+	echo "Tableau et/ou séparateur non renseigné(s) !"
 	exit 1
 fi

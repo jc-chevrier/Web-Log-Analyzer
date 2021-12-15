@@ -38,6 +38,6 @@ then
 	put "$1" "$2" "$3" "$4"
 	exit $?
 else
-	echo "Chemin de la table associative et/ou séparateur et/ou clé et/ou valeur non renseigné(s) !"
+	echo "Chemin du fichier de la table associative et/ou séparateur et/ou clé et/ou valeur non renseigné(s) !"
 	exit 1
 fi

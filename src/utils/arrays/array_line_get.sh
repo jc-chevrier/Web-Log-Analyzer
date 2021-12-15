@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# Script de recherche de cellule dans un tableau
+# Script de recherche d'un élément dans un tableau
 # sous forme de ligne.
 
 
-# Obtenir une cellule.
+# Obtenir un élément d'un tableau.
 function get() {
-	# Paramètres.
+	# Paramètres de fonction.
 	local arrayLine="$1"
 	local separator="$2"
 	local indexSearched=$3

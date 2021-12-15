@@ -43,6 +43,6 @@ then
         get "$1" "$2" "$3" $4
         exit $?
 else
-        echo "Chemin de la table associative et/ou sépérateur et/ou clé et/ou index de valeur cherché non renseigné(s) !"
+        echo "Chemin du fichier de la table associative et/ou sépérateur et/ou clé et/ou index de valeur cherché non renseigné(s) !"
         exit 1
 fi
