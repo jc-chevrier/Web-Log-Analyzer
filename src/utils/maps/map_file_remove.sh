@@ -13,14 +13,14 @@ MAP_FILE_HAS_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/utils/maps/map_file_has.s
 function remove() {
 	# Paramètres de fonction.
 	local mapFilePath=$1
-	local key=$2
+	local keySearched=$2
 
 	# Si la clé existe.
-	"$MAP_FILE_HAS_SCRIPT_PATH" "$mapFilePath" "$key"
+	"$MAP_FILE_HAS_SCRIPT_PATH" "$mapFilePath" "$keySearched"
 	if [ $? -eq 0 ]
 	then
 		# Suppression de la ligne de la clé.
-		sed -i -E "/^${key}.+$/d" "$mapFilePath"
+		sed -i -E "/^${keySearched}.+$/d" "$mapFilePath"
 		# Retour.
 		return 0
 	else

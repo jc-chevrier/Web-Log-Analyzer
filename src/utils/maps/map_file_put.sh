@@ -15,16 +15,16 @@ function put() {
 	# Paramètres de fonction.
 	local mapFilePath"=$1"
 	local separator="$2"
-	local key="$3"
-	local value="$4"
+	local keySearched="$3"
+	local newValue="$4"
 
 	# Si la clé existe déjà.
-	"$MAP_FILE_HAS_SCRIPT_PATH" "$mapFilePath" "$separator" "$key"
+	"$MAP_FILE_HAS_SCRIPT_PATH" "$mapFilePath" "$separator" "$keySearched"
 	if [ $? -eq 0 ]
 	then
-		sed -i -E "s|^${key}${separator}.+$|${key}${separator}${value}|g" "$mapFilePath"
+		sed -i -E "s|^${keySearched}${separator}.+$|${keySearched}${separator}${newValue}|g" "$mapFilePath"
 	else
-		echo "$key$separator$value" >> "$mapFilePath"
+		echo "$keySearched$separator$newValue" >> "$mapFilePath"
 	fi
 
 	# Retour.

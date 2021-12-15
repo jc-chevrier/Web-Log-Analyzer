@@ -2,7 +2,7 @@
 
 
 # Script pour savoir si un tableau sous forme de
-# fichier contient une clé.
+# fichier contient un élément.
 
 
 # Scripts externes
@@ -17,7 +17,7 @@ function has() {
 
 	# Vérification.
 	local count=$("$ARRAY_FILE_COUNT_SCRIPT_PATH" "$arrayFilePath")
-	test $indexSearched -lt $count
+	test $indexSearched -ge 0 -a $indexSearched -lt $count
 
 	# Retour.
 	return $?

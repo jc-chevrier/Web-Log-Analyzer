@@ -15,13 +15,13 @@ function get() {
 	local oldIFS="$IFS"
 	IFS="$separator"
 	local index=0
-	for cell in $arrayLine
+	for value in $arrayLine
 	do
 		# Si l'index est atteint.
 		if [ $index -eq $indexSearched ]
 		then
 			# Envoi du résultat.
-			echo "$cell"
+			echo "$value"
 			# Retour.
 			return 0
 		fi

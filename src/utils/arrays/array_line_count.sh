@@ -15,7 +15,7 @@ function count() {
 	local oldIFS="$IFS"
 	IFS="$separator"
 	local count=0
-	for line in $arrayFilePath
+	for value in $arrayFilePath
 	do
 		count=$((count + 1))
 	done

@@ -11,10 +11,10 @@ function has() {
 	# Paramètres de fonction.
 	local mapFilePath="$1"
 	local separator="$2"
-	local key="$3"
+	local keySearched="$3"
 
 	# Vérification.
-	local count=$(grep -c "$key$separator" "$mapFilePath")
+	local count=$(grep -c "$keySearched$separator" "$mapFilePath")
 	test $count -eq 1
 
 	# Retour.

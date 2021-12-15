@@ -9,12 +9,12 @@
 function set() {
 	# Paramètres de fonction.
 	local arrayFilePath="$1"
-	local index=$2
-	local value="$3"
+	local indexSearched=$2
+	local newValue="$3"
 
 	# Modification.
-	index=$((index + 1))
-	sed -i -E "${index}s/.*/${value}/g" "$arrayFilePath"
+	indexSearched=$((indexSearched + 1))
+	sed -i -E "${indexSearched}s/.*/${newValue}/g" "$arrayFilePath"
 
 	# Retour.
 	return $?

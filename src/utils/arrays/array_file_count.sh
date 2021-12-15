@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-# Script pour calculer la taille d'un tableau
+# Script de calcul de la taille d'un tableau
 # sous forme de fichier.
 
 

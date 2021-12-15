@@ -9,11 +9,11 @@
 function remove() {
 	# Paramètres de fonction.
 	local arrayFilePath="$1"
-	local index=$2
+	local indexSearched=$2
 
 	# Modification.
-	index=$((index + 1))
-	sed -i "${index}d" "$arrayFilePath"
+	indexSearched=$((indexSearched + 1))
+	sed -i "${indexSearched}d" "$arrayFilePath"
 
 	# Retour.
 	return $?

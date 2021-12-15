@@ -19,7 +19,7 @@ function add() {
 }
 
 
-# Esécution.
+# Exécution.
 if [ $# -eq 2 ]
 then
 	add "$1" "$2"
