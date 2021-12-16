@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-# Script de nettoyage des logs d'erreur de la journée
+# Script d'affichage des logs d'erreur de la journée
 # enregistré par apache.
 
 
@@ -9,13 +9,13 @@
 LOGS_FILE_PATH="/var/log/apache2/error.log"
 
 
-# Nettoyer le fichier.
+# Afficher le fichier.
 function clear() {
 	# Si le fichier existe.
 	if [ -f "$LOGS_FILE_PATH" ]
 	then
-		# Nettoyage.
-		truncate -s 0 "$LOGS_FILE_PATH"
+		# Affichage.
+		cat "$LOGS_FILE_PATH"
 	fi
 
 	# Retour.

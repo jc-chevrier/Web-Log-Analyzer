@@ -9,7 +9,7 @@
 LOGS_FILE_PATH="/var/log/apache2/access.log"
 
 
-# Nettoyer le fichier.
+# Afficher le fichier.
 function show() {
 	# Si le fichier existe.
 	if [ -f "$LOGS_FILE_PATH" ]
