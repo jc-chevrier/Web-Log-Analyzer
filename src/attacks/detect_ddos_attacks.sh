@@ -78,6 +78,7 @@ function analyze() {
 
 	# Filtrage des logs d'accès pour ne conserver que ceux
 	# qui sont dans l'intervalle de temps de d'étude.
+	index=0
 	while read line
 	do
 		# Récupération des informations du log.
@@ -134,10 +135,11 @@ function detect() {
 			message="Bonjour, \
 				\n\nUne attaque DDOS vient d'être détectée sur votre serveur web. Elle a été effectuée par l'adresse IP $IPAddressClient sur l'URI $URI. $countRequest requêtes ont été détectées. \
 				\n\nCordialement"
-			# Notifications par e-mail.
+			# Notification par e-mail.
 			"$SEND_EMAIL_SCRIPT_PATH" "$($LIST_USERS_EMAIL_ADDRESSES_SCRIPT_PATH)" "$subject" "$message"
-			# Notifications par sms.
-			#"$SEND_SMS_SCRIPT_PATH" "$($LIST_USERS_PHONE_NUMBERS_SCRIPT_PATH)" "$subject\n\n$message"
+			# Notification par sms.
+			message=$(echo "$message" | sed -E "s/([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})/\1 \2 \3 \4/g")
+			"$SEND_SMS_SCRIPT_PATH" "$($LIST_USERS_PHONE_NUMBERS_SCRIPT_PATH)" "$subject\n\n$message"
 			# Sauvegarde de l'attaque dans un tableau.
 			"$ARRAY_FILE_ADD_SCRIPT_PATH" "$DETECTED_ATTACKS_FILE_PATH" "$IPAddressClient;$URI;$timestampNow"
 		fi
