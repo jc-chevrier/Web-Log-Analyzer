@@ -1,21 +1,21 @@
 #!/bin/bash
 
 
-# Script de nettoyage des logs d'accès de la journée
+# Script de nettoyage des logs d'erreur de la journée
 # enregistré par apache.
 
 
 # Constantes.
-ACCESS_LOGS_PATH="/var/log/apache2/access.log"
+LOGS_FILE_PATH="/var/log/apache2/error.log"
 
 
 # Nettoyer le fichier.
 function clear() {
 	# Si le fichier existe.
-	if [ -f "$ACCESS_LOGS_PATH" ]
+	if [ -f "$LOGS_FILE_PATH" ]
 	then
 		# Nettoyage.
-		truncate -s 0 "$ACCESS_LOGS_PATH"
+		truncate -s 0 "$LOGS_FILE_PATH"
 	fi
 
 	# Retour.

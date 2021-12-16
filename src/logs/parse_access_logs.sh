@@ -13,6 +13,7 @@ TEMPORARY_DIRECTORY_PATH="${WEB_LOG_ANALYZER_PATH}/tmp"
 # Scripts externes.
 CREATE_DIRECTORY_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/utils/files/create_directory.sh"
 CREATE_FILE_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/utils/files/create_file.sh"
+ARRAY_FILE_ADD_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/utils/arrays/array_file_add.sh"
 
 
 # Fonction d'extraction des logs.
@@ -50,7 +51,7 @@ function parse() {
 			local client=$(echo $line | grep -o -E "\"[^\"]+\"$" | sed "s/\"//g")
 
 			# Envoi du résultat.
-			echo "$IPAddressClient|$datetime|$timestamp|$method|$URI|$HTTPVersion|$returnCode|$client" >> "$PARSED_LOGS_FILE_PATH"
+			"$ARRAY_FILE_ADD_SCRIPT_PATH" "$PARSED_LOGS_FILE_PATH" "$IPAddressClient|$datetime|$timestamp|$method|$URI|$HTTPVersion|$returnCode|$client"
 		fi
 
  		index=$((index + 1))
