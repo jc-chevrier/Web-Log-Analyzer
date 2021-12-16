@@ -13,10 +13,11 @@ ARRAY_LINE_COUNT_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/utils/arrays/array_li
 function has() {
 	# Paramètres de fonction.
 	local arrayLine="$1"
-	local indexSearched=$2
+	local separator="$2"
+	local indexSearched=$3
 
 	# Vérification.
-	local count=$("$ARRAY_LINE_COUNT_SCRIPT_PATH" "$arrayLine")
+	local count=$("$ARRAY_LINE_COUNT_SCRIPT_PATH" "$arrayLine" "$separator")
 	test $indexSearched -ge 0 -a $indexSearched -lt $count
 
 	# Retour.
@@ -25,9 +26,9 @@ function has() {
 
 
 # Exécution.
-if [ $# -eq 2 ]
+if [ $# -eq 3 ]
 then
-	has "$1" $2
+	has "$1" "$2" $3
 	exit $?
 else
 	echo "Tableau et/ou index cherché non renseigné(s) !"

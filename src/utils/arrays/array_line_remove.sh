@@ -16,12 +16,19 @@ function remove() {
 	local oldIFS="$IFS"
 	IFS="$separator"
 	local index=0
+	test ! $indexSearched -eq 0
+	local firstIndex=$?
 	for value in $arrayLine
 	do
 		# Si l'index est atteint.
 		if [ $index -ne $indexSearched ]
 		then
-			newArrayLine="$value$separator$newArrayLine"
+			if [ $index -eq $firstIndex ]
+                        then
+                                newArrayLine="$value"
+                        else
+                                newArrayLine="$newArrayLine$separator$value"
+                        fi
 		fi
 		# Incrémentation de l'index.
 		index=$((index + 1))

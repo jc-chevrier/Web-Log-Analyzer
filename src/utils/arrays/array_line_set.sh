@@ -17,14 +17,26 @@ function remove() {
 	local oldIFS="$IFS"
 	IFS="$separator"
 	local index=0
+	local found=1
 	for value in $arrayLine
 	do
 		# Si l'index cherché est atteint.
 		if [ $index -eq $indexSearched ]
 		then
-			newArrayLine="$newValue$separator$newArrayLine"
+			found=0
+			if [ $index -eq 0 ]
+			then
+				newArrayLine="$newValue"
+			else
+				newArrayLine="$newArrayLine$separator$newValue"
+			fi
 		else
-			newArrayLine="$value$separator$newArrayLine"
+                        if [ $index -eq 0 ]
+                        then
+                                newArrayLine="$value"
+                        else
+                                newArrayLine="$newArrayLine$separator$value"
+                	fi
 		fi
 		# Incrémentation de l'index.
 		index=$((index + 1))
@@ -35,7 +47,7 @@ function remove() {
 	echo "$newArrayLine"
 
 	# Retour.
-	return 0
+	return $found
 }
 
 
