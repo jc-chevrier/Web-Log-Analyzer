@@ -1,15 +1,15 @@
 #!/bin/bash
 
 
-# Script pour savoir si un tableau sous forme de
-# ligne contient un élément.
+# Script pour savoir si un indice existe dans
+# un tableau sous forme de ligne.
 
 
 # Scripts externes
 ARRAY_LINE_COUNT_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/utils/arrays/array_line_count.sh"
 
 
-# Savoir si un élément est contenu dans un tableau.
+# Savoir si un indice existe dans un tableau.
 function has() {
 	# Paramètres de fonction.
 	local arrayLine="$1"

@@ -1,11 +1,11 @@
 #!/bin/bash
 
 
-# Script de suppression d'un élément d'un tableau sous
+# Script de suppression d'une valeur d'un tableau sous
 # forme de fichier.
 
 
-# Supprimer un élément dans un tableau.
+# Supprimer une valeur dans un tableau.
 function remove() {
 	# Paramètres de fonction.
 	local arrayFilePath="$1"

@@ -11,3 +11,8 @@ attack_ddos_interval=3600
 # Par défaut, le nombre de requête minimum attendu pour la 
 # detection d'une attaque DDOS est de 100.
 attack_ddos_count_request=100
+
+
+# Zone de fuseau horaire.
+# Par defaut, fuseau horarire de Paris : Europe/Paris.
+timezone=Europe/Paris

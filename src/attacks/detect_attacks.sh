@@ -20,7 +20,7 @@ DETECT_DDOS_ATTACKS_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/attacks/detect_ddo
 # Détecter des attaques.
 function detect() {
 	echo -e "Début de la détection d'attaques... \
-	         \nCTRL-C pour stopper.\n"
+	         \nCTRL-C pour arrêter.\n"
 
 	# Nettoyage des fichiers.
 	"$CLEAR_DIRECTORY_SCRIPT_PATH" "$TEMPORARY_DIRECTORY_PATH"

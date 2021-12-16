@@ -18,7 +18,7 @@ ARRAY_FILE_ADD_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/utils/arrays/array_file
 
 # Fonction d'extraction des logs.
 function parse() {
-	# Paramètres.
+	# Paramètres de fonction.
 	local indexStart=$1
 
         # Création du dossier de résultat.
@@ -46,17 +46,19 @@ function parse() {
  			local URI=$(echo $command | grep -o -E " .+ " | sed "s/ //g")
 			local HTTPVersion=$(echo $command | grep -o -E " [^ ]+$" | sed "s/ //g")
 
-			local returnCode=$(echo $line | grep -o -E "\" [0-9]+ " | sed "s/\"//g" | sed "s/ //g")
+			local returnHTTPCode=$(echo $line | grep -o -E "\" [0-9]+ " | sed "s/\"//g" | sed "s/ //g")
 
 			local client=$(echo $line | grep -o -E "\"[^\"]+\"$" | sed "s/\"//g")
 
 			# Envoi du résultat.
-			"$ARRAY_FILE_ADD_SCRIPT_PATH" "$PARSED_LOGS_FILE_PATH" "$IPAddressClient|$datetime|$timestamp|$method|$URI|$HTTPVersion|$returnCode|$client"
+			"$ARRAY_FILE_ADD_SCRIPT_PATH" "$PARSED_LOGS_FILE_PATH" "$IPAddressClient#$timestamp#$method#$URI#$HTTPVersion#$returnHTTPCode#$client"
 		fi
 
+		# Incrémentation de l'index.
  		index=$((index + 1))
 	done < "$LOGS_FILE_PATH"
 
+	# Retour.
 	return 0
 }
 

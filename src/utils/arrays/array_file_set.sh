@@ -1,11 +1,11 @@
 #!/bin/bash
 
 
-# Script de modification d'un élément d'un tableau sous
+# Script de modification d'une valeur d'un tableau sous
 # forme de fichier.
 
 
-# Modifier un élément dans un tableau.
+# Modifier une valeur dans un tableau.
 function set() {
 	# Paramètres de fonction.
 	local arrayFilePath="$1"

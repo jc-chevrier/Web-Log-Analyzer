@@ -1,10 +1,11 @@
 #!/bin/bash
 
-# Script de recherche d'un élément dans un tableau
+
+# Script de suppression d'une valeur dans un tableau
 # sous forme de ligne.
 
 
-# Obtenir un élément d'un tableau.
+# Supprimer une valeur dans un tableau.
 function remove() {
 	# Paramètres.
 	local arrayLine="$1"
@@ -20,7 +21,7 @@ function remove() {
 	local firstIndex=$?
 	for value in $arrayLine
 	do
-		# Si l'index est atteint.
+		# Si l'indice cherché est trouvé.
 		if [ $index -ne $indexSearched ]
 		then
 			if [ $index -eq $firstIndex ]
@@ -30,7 +31,7 @@ function remove() {
                                 newArrayLine="$newArrayLine$separator$value"
                         fi
 		fi
-		# Incrémentation de l'index.
+		# Incrémentation de l'indice.
 		index=$((index + 1))
 	done
 	IFS="$oldIFS"

@@ -1,11 +1,11 @@
 #!/bin/bash
 
 
-# Script d'ajout d'un élément à un tableau sous
+# Script d'ajout d'une valeur dans un tableau sous
 # forme de ligne.
 
 
-# Ajouter un élément à un tableau.
+# Ajouter une valeur dans un tableau.
 function add() {
 	# Paramètres de fonction.
 	local arrayLine="$1"

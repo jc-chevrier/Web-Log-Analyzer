@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# Script de recherche d'un élément dans un tableau
+# Script de recherche d'une valeur dans un tableau
 # sous forme de fichier.
 
 
-# Obtenir un élément d'un tableau.
+# Obtenir une valeur d'un tableau.
 function get() {
 	# Paramètres de fonction.
 	local arrayFilePath="$1"
@@ -14,7 +14,7 @@ function get() {
 	local index=0
 	while read value
 	do
-		# Si l'index est atteint.
+		# Si l'indice cherché est trouvé.
 		if [ $index -eq $indexSearched ]
 		then
 			# Envoi du résultat.
@@ -22,11 +22,11 @@ function get() {
 			# Retour.
 			return 0
 		fi
-		# Incrémentation de l'index.
+		# Incrémentation de l'indice.
 		index=$((index + 1))
 	done < "$arrayFilePath"
 
-	# Retour d'erreur si index non trouvé.
+	# Retour d'erreur si indice cherché non trouvé.
 	return 1
 }
 

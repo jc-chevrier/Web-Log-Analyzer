@@ -7,6 +7,8 @@
 # Scripts externes.
 GET_SETTING_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/settings/get_setting.sh"
 ARRAY_LINE_GET_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/utils/arrays/array_line_get.sh"
+ARRAY_LINE_CONTAINS_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/utils/arrays/array_line_contains.sh"
+ARRAY_LINE_ADD_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/utils/arrays/array_line_add.sh"
 ARRAY_FILE_ADD_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/utils/arrays/array_file_add.sh"
 ARRAY_FILE_REMOVE_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/utils/arrays/array_file_remove.sh"
 MAP_FILE_HAS_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/utils/maps/map_file_has.sh"
@@ -44,10 +46,10 @@ function clear() {
 
 	# Pour chaque attaque détectée.
 	index=0
-	while read line
+	while read attack
 	do
 		# Récupération des informations de l'attaque.
-                local timestamp=$("$ARRAY_LINE_GET_SCRIPT_PATH" "$line" ";" 2)
+                local timestamp=$("$ARRAY_LINE_GET_SCRIPT_PATH" "$attack" "#" 2)
 		# Si l'attaque a dépassée l'intervalle d'étude.
 		if [ $((timestampNow - timestamp)) -gt $INTERVAL ]
 		then
@@ -79,27 +81,49 @@ function analyze() {
 	# Filtrage des logs d'accès pour ne conserver que ceux
 	# qui sont dans l'intervalle de temps de d'étude.
 	index=0
-	while read line
+	while read accessLog
 	do
 		# Récupération des informations du log.
-		local IPAddressClient=$("$ARRAY_LINE_GET_SCRIPT_PATH" "$line" "|" 0)
-		local timestamp=$("$ARRAY_LINE_GET_SCRIPT_PATH" "$line" "|" 2)
-		local URI=$("$ARRAY_LINE_GET_SCRIPT_PATH" "$line" "|" 4)
+		local IPAddressClient=$("$ARRAY_LINE_GET_SCRIPT_PATH" "$accessLog" "#" 0)
+		local timestamp=$("$ARRAY_LINE_GET_SCRIPT_PATH" "$accessLog" "#" 1)
+		local URI=$("$ARRAY_LINE_GET_SCRIPT_PATH" "$accessLog" "#" 3)
+                local returnHTTPCode=$("$ARRAY_LINE_GET_SCRIPT_PATH" "$accessLog" "#" 5)
+                local client=$("$ARRAY_LINE_GET_SCRIPT_PATH" "$accessLog" "#" 6)
 		# Si le log est a eu lieu dans l"intervalle de
 		# temps de surveillance.
 		if [ $((timestampNow - timestamp)) -le $INTERVAL ]
 		then
 			# Accumulation des logs d'accès filtrés dans une table associative.
-                	local countRequest=""
-               	 	"$MAP_FILE_HAS_SCRIPT_PATH" "$ACCUMULATED_FILTERED_ACCESS_LOGS_FILE_PATH" ";" "$IPAddressClient;$URI"
+			local startTimestamp=""
+			local returnHTTPCodes=""
+			local clients=""
+			local countRequest=""
+               	 	"$MAP_FILE_HAS_SCRIPT_PATH" "$ACCUMULATED_FILTERED_ACCESS_LOGS_FILE_PATH" "#" "$IPAddressClient#$URI"
                 	if [ $? -eq 0 ]
                 	then
-                        	countRequest=$("$MAP_FILE_GET_SCRIPT_PATH" "$ACCUMULATED_FILTERED_ACCESS_LOGS_FILE_PATH" ";" "$IPAddressClient;$URI" 2)
-                        	countRequest=$((countRequest + 1))
-                	else
-                        	countRequest=1
+                        	startTimestamp=$("$MAP_FILE_GET_SCRIPT_PATH" "$ACCUMULATED_FILTERED_ACCESS_LOGS_FILE_PATH" "#" "$IPAddressClient#$URI" 2)
+				returnHTTPCodes=$("$MAP_FILE_GET_SCRIPT_PATH" "$ACCUMULATED_FILTERED_ACCESS_LOGS_FILE_PATH" "#" "$IPAddressClient#$URI" 3)
+				"$ARRAY_LINE_CONTAINS_SCRIPT_PATH" "$returnHTTPCodes" "~" "$returnHTTPCode"
+				if [ $? -eq 1 ]
+				then
+					returnHTTPCodes=$("$ARRAY_LINE_ADD_SCRIPT_PATH" "$returnHTTPCodes" "~" "$returnHTTPCode")
+				fi
+                                clients=$("$MAP_FILE_GET_SCRIPT_PATH" "$ACCUMULATED_FILTERED_ACCESS_LOGS_FILE_PATH" "#" "$IPAddressClient#$URI" 4)
+                                "$ARRAY_LINE_CONTAINS_SCRIPT_PATH" "$clients" "~" "$client"
+                                if [ $? -eq 1 ]
+                                then
+                                        clients=$("$ARRAY_LINE_ADD_SCRIPT_PATH" "$clients" "~" "$client")
+                                fi
+                                countRequest=$("$MAP_FILE_GET_SCRIPT_PATH" "$ACCUMULATED_FILTERED_ACCESS_LOGS_FILE_PATH" "#" "$IPAddressClient#$URI" 5)
+                                countRequest=$((countRequest + 1))
+
+			else
+                     		startTimestamp="$timestamp"
+				returnHTTPCodes=$("$ARRAY_LINE_ADD_SCRIPT_PATH" "" "~" "$returnHTTPCode")
+				clients=$("$ARRAY_LINE_ADD_SCRIPT_PATH" "" "~" "$client")
+				countRequest=1
                 	fi
-			"$MAP_FILE_PUT_SCRIPT_PATH" "$ACCUMULATED_FILTERED_ACCESS_LOGS_FILE_PATH" ";" "$IPAddressClient;$URI" "$countRequest"
+			"$MAP_FILE_PUT_SCRIPT_PATH" "$ACCUMULATED_FILTERED_ACCESS_LOGS_FILE_PATH" "#" "$IPAddressClient#$URI" "$startTimestamp#$returnHTTPCodes#$clients#$countRequest"
 		fi
 	done < "$PARSED_ACCESS_LOGS_FILE_PATH"
 
@@ -116,32 +140,41 @@ function detect() {
         local timestampNow=$(date +%s)
 
 	# Pour chaque ligne des logs d'accès accumulés.
-        while read line
+        while read FAAccessLog
         do
                 # Récupération des informations des logs d'accès accumulés.
-                local IPAddressClient=$("$ARRAY_LINE_GET_SCRIPT_PATH" "$line" ";" 0)
-                local URI=$("$ARRAY_LINE_GET_SCRIPT_PATH" "$line" ";" 1)
-                local countRequest=$("$ARRAY_LINE_GET_SCRIPT_PATH" "$line" ";" 2)
+                local IPAddressClient=$("$ARRAY_LINE_GET_SCRIPT_PATH" "$FAAccessLog" "#" 0)
+                local URI=$("$ARRAY_LINE_GET_SCRIPT_PATH" "$FAAccessLog" "#" 1)
+                local startTimestamp=$("$ARRAY_LINE_GET_SCRIPT_PATH" "$FAAccessLog" "#" 2)
+		local startDatetime=$(date -d@$startTimestamp)
+		local returnHTTPCodes=$("$ARRAY_LINE_GET_SCRIPT_PATH" "$FAAccessLog" "#" 3)
+		returnHTTPCodes=$(echo "$returnHTTPCodes" | sed -e "s/~/, /g")
+		local clients=$("$ARRAY_LINE_GET_SCRIPT_PATH" "$FAAccessLog" "#" 4)
+                clients=$(echo "$clients" | sed -e "s/~/, /g")
+		local countRequest=$("$ARRAY_LINE_GET_SCRIPT_PATH" "$FAAccessLog" "#" 5)
 		# Vérification des logs d'accès accumulés.
 		# Si l'attaque n'avait pas déjà été détectée durant l'intervalle d'étude
 		# et si le nombre de requête qui a été fait sur l'intervalle a atteint le
 		# nombre de requêtes définnissant les attaques DDOS.
-		"$MAP_FILE_HAS_SCRIPT_PATH" "$DETECTED_ATTACKS_FILE_PATH" ";" "$IPAddressClient;$URI"
+		"$MAP_FILE_HAS_SCRIPT_PATH" "$DETECTED_ATTACKS_FILE_PATH" "#" "$IPAddressClient#$URI"
 		if [ $? -eq 1 -a $countRequest -ge $COUNT_REQUEST ]
 		then
 			# Message affiché.
 			echo "Alerte : attaque DDOS détectée pour l'adresse IP $IPAddressClient sur l'URI $URI : $countRequest requêtes !"
 			subject="[Alerte de sécurité] Attaque DDOS détectée"
 			message="Bonjour, \
-				\n\nUne attaque DDOS vient d'être détectée sur votre serveur web. Elle a été effectuée par l'adresse IP $IPAddressClient sur l'URI $URI. $countRequest requêtes ont été détectées. \
+				\n\nUne attaque DDOS vient d'être détectée sur votre serveur web. \
+				\n\nElle a été effectuée par l'adresse IP $IPAddressClient sur l'URI $URI. \
+				\n\nL'attaquant a effectué $countRequest requêtes, en utilisant ces clients : $clients, et a obtenu ces codes HTTP en retour : $returnHTTPCodes. \
+				\n\nL'attaque a commencé à $startDatetime. \
 				\n\nCordialement"
 			# Notification par e-mail.
 			"$SEND_EMAIL_SCRIPT_PATH" "$($LIST_USERS_EMAIL_ADDRESSES_SCRIPT_PATH)" "$subject" "$message"
 			# Notification par sms.
-			message=$(echo "$message" | sed -E "s/([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})/\1 \2 \3 \4/g")
+			message=$(echo "$message" | sed -E "s/([0-9]{1,3}){1}\.{1}([0-9]{1,3}){1}\.{1}([0-9]{1,3}){1}\.{1}([0-9]{1,3}){1}/\1 \2 \3 \4/g")
 			"$SEND_SMS_SCRIPT_PATH" "$($LIST_USERS_PHONE_NUMBERS_SCRIPT_PATH)" "$subject\n\n$message"
 			# Sauvegarde de l'attaque dans un tableau.
-			"$ARRAY_FILE_ADD_SCRIPT_PATH" "$DETECTED_ATTACKS_FILE_PATH" "$IPAddressClient;$URI;$timestampNow"
+			"$ARRAY_FILE_ADD_SCRIPT_PATH" "$DETECTED_ATTACKS_FILE_PATH" "$IPAddressClient#$URI#$timestampNow"
 		fi
         done < "$ACCUMULATED_FILTERED_ACCESS_LOGS_FILE_PATH"
 
