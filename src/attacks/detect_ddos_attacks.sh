@@ -22,7 +22,7 @@ SEND_SMS_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/notifications/send_sms.sh"
 
 # Fichiers des structures de données.
 PARSED_ACCESS_LOGS_FILE_PATH="${WEB_LOG_ANALYZER_PATH}/tmp/parsed_access_logs"
-ACCUMULATED_ACCESS_LOGS_FILE_PATH="${WEB_LOG_ANALYZER_PATH}/tmp/accumulated_access_logs"
+ACCUMULATED_FILTERED_ACCESS_LOGS_FILE_PATH="${WEB_LOG_ANALYZER_PATH}/tmp/accumulated_filtered_access_logs"
 DETECTED_ATTACKS_FILE_PATH="${WEB_LOG_ANALYZER_PATH}/tmp/detected_ddos_attacks"
 
 
@@ -71,7 +71,7 @@ function clear() {
 # IP du client et l'URI demandé par le client.
 function analyze() {
 	# Nettoyage du fichier des logs d'accès accumulés.
-	"$CLEAR_FILE_SCRIPT_PATH" "$ACCUMULATED_ACCESS_LOGS_FILE_PATH"
+	"$CLEAR_FILE_SCRIPT_PATH" "$ACCUMULATED_FILTERED_ACCESS_LOGS_FILE_PATH"
 
 	# Date courante.
 	local timestampNow=$(date +%s)
@@ -90,15 +90,15 @@ function analyze() {
 		then
 			# Accumulation des logs d'accès filtrés dans une table associative.
                 	local countRequest=""
-               	 	"$MAP_FILE_HAS_SCRIPT_PATH" "$ACCUMULATED_ACCESS_LOGS_FILE_PATH" ";" "$IPAddressClient;$URI"
+               	 	"$MAP_FILE_HAS_SCRIPT_PATH" "$ACCUMULATED_FILTERED_ACCESS_LOGS_FILE_PATH" ";" "$IPAddressClient;$URI"
                 	if [ $? -eq 0 ]
                 	then
-                        	countRequest=$("$MAP_FILE_GET_SCRIPT_PATH" "$ACCUMULATED_ACCESS_LOGS_FILE_PATH" ";" "$IPAddressClient;$URI" 2)
+                        	countRequest=$("$MAP_FILE_GET_SCRIPT_PATH" "$ACCUMULATED_FILTERED_ACCESS_LOGS_FILE_PATH" ";" "$IPAddressClient;$URI" 2)
                         	countRequest=$((countRequest + 1))
                 	else
                         	countRequest=1
                 	fi
-			"$MAP_FILE_PUT_SCRIPT_PATH" "$ACCUMULATED_ACCESS_LOGS_FILE_PATH" ";" "$IPAddressClient;$URI" "$countRequest"
+			"$MAP_FILE_PUT_SCRIPT_PATH" "$ACCUMULATED_FILTERED_ACCESS_LOGS_FILE_PATH" ";" "$IPAddressClient;$URI" "$countRequest"
 		fi
 	done < "$PARSED_ACCESS_LOGS_FILE_PATH"
 
@@ -141,7 +141,7 @@ function detect() {
 			# Sauvegarde de l'attaque dans un tableau.
 			"$ARRAY_FILE_ADD_SCRIPT_PATH" "$DETECTED_ATTACKS_FILE_PATH" "$IPAddressClient;$URI;$timestampNow"
 		fi
-        done < "$ACCUMULATED_ACCESS_LOGS_FILE_PATH"
+        done < "$ACCUMULATED_FILTERED_ACCESS_LOGS_FILE_PATH"
 
 	# Retour.
 	return 0
