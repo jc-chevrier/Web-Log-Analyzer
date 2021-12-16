@@ -2,7 +2,6 @@
 # Par defaut, fuseau horarire de Paris : Europe/Paris.
 timezone=Europe/Paris
 
-
 # Paramètres de localisation des logs.
 # https://www.a2hosting.com/kb/developer-corner/apache-web-server/viewing-apache-log-files#More-Information
 # Sur ubuntu ou débian : /var/log/apache2/access.log, 
@@ -14,13 +13,11 @@ access_logs_file_path=/var/log/apache2/access.log
 # /etc/httpd/logs/error_log.
 error_logs_file_path=/var/log/apache2/error.log
 
-
 # Paramètres de l'API d'envoi de SMS textbelt.
 sms_textbelt_api_url=https://textbelt.com/text
 # Valeur de la clé d'API par défaut : textbelt
 # (clé pour un sms gratuit par jour).
 sms_textbelt_api_key=68c6f8147c3a754e5a4d6329dfb0d1e058e76cdd4EnQrqqpVNwWruixhazkW3wTF
-
 
 # Paramètres de la gestion des attaques DDOS.
 # Par défaut, l'intervalle d'étude des attaques DDOS est de
