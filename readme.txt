@@ -1,4 +1,4 @@
-Application :
+Solution :
 Web Log Analyzer
 
 
