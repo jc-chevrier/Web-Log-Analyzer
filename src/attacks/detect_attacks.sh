@@ -32,10 +32,10 @@ function detect() {
 	while [ 0 ]
 	do
 		# Extraction des logs d'accès.
-		"$PARSE_ACCESS_LOGS_SCRIPT_PATH" $indexAccessLogs
+		"$PARSE_ACCESS_LOGS_SCRIPT_PATH" $indexAccessLogs 1
 
                 # Extraction des logs d'erreur.
-                "$PARSE_ERROR_LOGS_SCRIPT_PATH" $indexErrorLogs
+                "$PARSE_ERROR_LOGS_SCRIPT_PATH" $indexErrorLogs 1
 
 		# Détection des attaques DDOS.
 		"$DETECT_DDOS_ATTACKS_SCRIPT_PATH"

@@ -7,11 +7,13 @@
 # Scripts externes.
 CREATE_DIRECTORY_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/utils/files/create_directory.sh"
 CREATE_FILE_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/utils/files/create_file.sh"
+CLEAR_FILE_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/utils/files/clear_file.sh"
 ARRAY_FILE_ADD_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/utils/arrays/array_file_add.sh"
+GET_SETTING_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/settings/get_setting.sh"
 
 
 # Constantes.
-LOGS_FILE_PATH="/var/log/apache2/access.log"
+LOGS_FILE_PATH=$("$GET_SETTING_SCRIPT_PATH" "access_logs_file_path")
 PARSED_LOGS_FILE_PATH="${WEB_LOG_ANALYZER_PATH}/tmp/parsed_access_logs"
 TEMPORARY_DIRECTORY_PATH="${WEB_LOG_ANALYZER_PATH}/tmp"
 
@@ -20,12 +22,18 @@ TEMPORARY_DIRECTORY_PATH="${WEB_LOG_ANALYZER_PATH}/tmp"
 function parse() {
 	# Paramètres de fonction.
 	local indexStart=$1
+	local clearFileAsked=$2
 
         # Création du dossier de résultat.
         "$CREATE_DIRECTORY_SCRIPT_PATH" "$TEMPORARY_DIRECTORY_PATH"
 
 	# Création du fichier de résultat.
-	"$CREATE_FILE_SCRIPT_PATH" "$PARSED_LOGS_FILE_PATH"
+	if [ $clearFileAsked -eq 0 ]
+	then
+		"$CLEAR_FILE_SCRIPT_PATH" "$PARSED_LOGS_FILE_PATH"
+	else
+		"$CREATE_FILE_SCRIPT_PATH" "$PARSED_LOGS_FILE_PATH"
+	fi
 
 	# Pour chaque ligne des logs.
 	local index=0
@@ -64,17 +72,17 @@ function parse() {
 
 
 # Exécution.
-if [ -f "$LOGS_FILE_PATH" ]
+if [ $# -eq 2 ]
 then
-	if [ $# -eq 1 ]
+	if [ -f "$LOGS_FILE_PATH" ]
 	then
-		parse "$1"
+		parse $1 $2
+		exit 0
 	else
-		parse 0
+		echo "Ficher $LOGS_FILE_PATH introuvable !"
+		exit 1
 	fi
-
-	exit 0
 else
-	echo "Ficher $LOGS_FILE_PATH introuvable !"
+	echo "Indice de départ et/ou nettoyage demandé non renseigné(s) !"
 	exit 1
 fi
