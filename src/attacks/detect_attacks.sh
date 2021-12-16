@@ -37,7 +37,6 @@ function detect() {
 
 		# Préparation de l'itération suivante.
                 index=$("$ARRAY_FILE_COUNT_SCRIPT_PATH" "$PARSED_ACCESS_LOGS_FILE_PATH")
-                index=$((index + 1))
 	done
 
 	return 0
