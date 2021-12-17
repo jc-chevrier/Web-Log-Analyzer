@@ -27,6 +27,6 @@ then
 	set "$1" $2 "$3"
 	exit $?
 else
-	echo "Chemin du fichier du tableau et/ou indice et/ou nouvelle valeur non renseigné(s) !"
+	echo "Chemin du fichier du tableau et/ou indice cherché et/ou nouvelle valeur non renseigné(s) !"
 	exit 1
 fi

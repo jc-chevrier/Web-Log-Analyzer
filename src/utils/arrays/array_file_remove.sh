@@ -26,6 +26,6 @@ then
 	remove "$1" $2
 	exit $?
 else
-	echo "Chemin du fichier du tableau et/ou index non resneigné(s) !"
+	echo "Chemin du fichier du tableau et/ou indice cherché non resneigné(s) !"
 	exit 1
 fi
