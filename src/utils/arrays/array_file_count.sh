@@ -16,6 +16,7 @@ function count() {
 	# Envoi du résultat.
 	echo $count
 
+	# Retour.
 	return 0
 }
 

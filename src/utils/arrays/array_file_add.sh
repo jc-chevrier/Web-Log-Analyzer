@@ -25,6 +25,6 @@ then
 	add "$1" "$2"
 	exit $?
 else
-	echo "Chemin du fichier du tableau et/ou élément non resneigné(s) !"
+	echo "Chemin du fichier du tableau et/ou valeur non renseigné(s) !"
 	exit 1
 fi

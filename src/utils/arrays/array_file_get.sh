@@ -37,6 +37,6 @@ then
 	get "$1" $2
 	exit $?
 else
-	echo "Chemin du tableau et/ou index cherché non renseigné(s) !"
+	echo "Chemin du tableau et/ou indice cherché non renseigné(s) !"
 	exit 1
 fi
