@@ -57,6 +57,6 @@ then
 	set "$1" "$2" $3 "$4"
 	exit $?
 else
-	echo "Tableau et/ou séparateur et/ou index cherché et/ou nouvelle valeur non renseigné(s) !"
+	echo "Tableau et/ou séparateur et/ou indice cherché et/ou nouvelle valeur non renseigné(s) !"
 	exit 1
 fi
