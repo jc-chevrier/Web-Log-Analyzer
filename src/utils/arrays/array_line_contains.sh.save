@@ -1,0 +1,33 @@
+#!/bin/bash
+
+
+# Script pour savoir si un tableau sous forme de ligne
+# contient une valeur.
+
+
+# Savoir si une valeur contenue dans un tableau.
+function contains() {
+	# Paramètres de fonction.
+	local arrayLine="$1"
+	local separator="$2"
+	local valueSearched="$3"
+
+	# Recherche.
+	local count=$(echo "$(printf '%s' "$arrayLine" | sed 's/[.[\*^$]/\\&/g')" | grep -c -E "^(.+${separator}){0,1}${valueSearched}(${separator}.+){0,1}$")
+	
+test $count -gt 0
+
+	# Retour.
+	return $?
+}
+
+
+# Exécution.
+if [ $# -eq 3 ]
+then
+	contains "$1" "$2" "$3"
+	exit $?
+else
+	echo "Tableau et/ou séparateur et/ou valeur cherchée non renseigné(s) !"
+	exit 1
+fi
