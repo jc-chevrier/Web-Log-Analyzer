@@ -9,7 +9,7 @@ CLEAR_DIRECTORY_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/utils/files/clear_dire
 ARRAY_FILE_COUNT_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/utils/arrays/array_file_count.sh"
 PARSE_ACCESS_LOGS_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/logs/parse_access_logs.sh"
 PARSE_ERROR_LOGS_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/logs/parse_error_logs.sh"
-DETECT_DDOS_ATTACKS_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/attacks/detect_ddos_attacks.sh"
+DETECT_DOS_ATTACKS_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/attacks/detect_dos_attacks.sh"
 
 
 #Constantes.
@@ -26,7 +26,7 @@ function detect() {
 	# Nettoyage des fichiers.
 	"$CLEAR_DIRECTORY_SCRIPT_PATH" "$TEMPORARY_DIRECTORY_PATH"
 
-	# Tant que la fonction n'est pas stoppée.
+	# Tant que la fonction n'est pas arrêtée.
 	local indexAccessLogs=0
 	local indexErrorLogs=0
 	while [ 0 ]
@@ -37,8 +37,8 @@ function detect() {
                 # Extraction des logs d'erreur.
                 "$PARSE_ERROR_LOGS_SCRIPT_PATH" $indexErrorLogs 1
 
-		# Détection des attaques DDOS.
-		"$DETECT_DDOS_ATTACKS_SCRIPT_PATH"
+		# Détection des attaques DOS.
+		"$DETECT_DOS_ATTACKS_SCRIPT_PATH"
 
 		# Préparation de l'itération suivante.
                 indexAccessLogs=$("$ARRAY_FILE_COUNT_SCRIPT_PATH" "$PARSED_ACCESS_LOGS_FILE_PATH")

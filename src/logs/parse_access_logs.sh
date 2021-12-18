@@ -8,6 +8,8 @@
 CREATE_DIRECTORY_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/utils/files/create_directory.sh"
 CREATE_FILE_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/utils/files/create_file.sh"
 CLEAR_FILE_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/utils/files/clear_file.sh"
+ARRAY_LINE_GET_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/utils/arrays/array_line_get.sh"
+ARRAY_LINE_SET_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/utils/arrays/array_line_set.sh"
 ARRAY_FILE_ADD_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/utils/arrays/array_file_add.sh"
 GET_SETTING_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/settings/get_setting.sh"
 
@@ -37,29 +39,24 @@ function parse() {
 
 	# Pour chaque ligne des logs.
 	local index=0
-	while read line
+	while read log
 	do
 		# Si on a atteint la ligne de début précisée.
 		if [ $indexStart -le $index ]
 		then
-			# Extraction.
- 			local IPAddressClient=$(echo $line | grep -o -E "^([0-9]{1,3}\.){3}[0-9]{1,3}")
+			# Principale transformation.
+		        local parsedLog=$(echo "$log" \
+					 | sed -E "s/^([^ ]+) ([^ ]+) ([^ ]+) \[([^]]+)\] \"([^ ]+) ([^ ]+) ([^\"]+)\" ([^ ]+) ([^ ]+)/\1~\2~\3~\4~\5~\6~\7~\8~\9/g" \
+			                 | sed -E "s/^(.+) \"([^\"]+)\" \"([^\"]+)\"$/\1~\2~\3/g")
 
- 			local datetime=$(echo $line | grep -o -E "\[.+\]" | sed -e "s/\[//g" -e "s/\]//g")
+			# Transformation de la date en timestamp.
+ 			local datetime=$("$ARRAY_LINE_GET_SCRIPT_PATH" "$parsedLog" "~" 3)
 			local timestamp=$(echo "$datetime" | sed -e "s|/|-|g" -e "s/:/ /")
 			timestamp=$(date -d "$timestamp" "+%s")
-
- 			local command=$(echo $line | grep -o -E "\".+\"" | grep -o -E "^\"[^\"]+" | sed "s/\"//g")
- 			local method=$(echo $command | grep -o -E "^[^ ]+")
- 			local URI=$(echo $command | grep -o -E " .+ " | sed "s/ //g")
-			local HTTPVersion=$(echo $command | grep -o -E " [^ ]+$" | sed "s/ //g")
-
-			local returnHTTPCode=$(echo $line | grep -o -E "\" [0-9]+ " | sed -e "s/\"//g" -e "s/ //g")
-
-			local client=$(echo $line | grep -o -E "\"[^\"]+\"$" | sed "s/\"//g")
+			parsedLog=$("$ARRAY_LINE_SET_SCRIPT_PATH" "$parsedLog" "~" 3 "$timestamp")
 
 			# Envoi du résultat.
-			"$ARRAY_FILE_ADD_SCRIPT_PATH" "$PARSED_LOGS_FILE_PATH" "$IPAddressClient~$timestamp~$method~$URI~$HTTPVersion~$returnHTTPCode~$client"
+			"$ARRAY_FILE_ADD_SCRIPT_PATH" "$PARSED_LOGS_FILE_PATH" "$parsedLog"
 		fi
 
 		# Incrémentation de l'index.

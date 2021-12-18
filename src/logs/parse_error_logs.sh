@@ -8,6 +8,8 @@
 CREATE_DIRECTORY_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/utils/files/create_directory.sh"
 CREATE_FILE_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/utils/files/create_file.sh"
 CLEAR_FILE_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/utils/files/clear_file.sh"
+ARRAY_LINE_GET_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/utils/arrays/array_line_get.sh"
+ARRAY_LINE_SET_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/utils/arrays/array_line_set.sh"
 ARRAY_FILE_ADD_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/utils/arrays/array_file_add.sh"
 GET_SETTING_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/settings/get_setting.sh"
 
@@ -42,21 +44,24 @@ function parse() {
 		# Si on a atteint la ligne de début précisée.
 		if [ $indexStart -le $index ]
 		then
-			# Extraction.
- 			local datetime=$(echo $log | grep -o -E "^\[[^]]+\]"| sed -e "s/\[//g" -e "s/\]//g")
+			# Principales transformations.
+			local parsedLog=""
+			if [ $(echo $log | grep -c "\[client") -eq 1 ]
+			then
+				parsedLog=$(echo $log \
+                                            | sed -E "s/^\[([^]]+)\] \[([^:]+):([^]]+)\] \[pid ([^ ]+) ([^]]+)\] \[client ([^:]+):([^]]+)\] ([^:]+): (.+)$/\1~\2~\3~\4~\5~\6~\7~\8~\9/g")
+	 		else
+				parsedLog=$(echo $log \
+                                           | sed -E "s/^\[([^]]+)\] \[([^:]+):([^]]+)\] \[pid ([^ ]+) ([^]]+)\] ([^:]+): (.+)$/\1~\2~\3~\4~\5~\6~\7/g")
+			fi
+
+			# Transformation de la date en timestamp.
+ 			local datetime=$("$ARRAY_LINE_GET_SCRIPT_PATH" "$parsedLog" "~" 0)
 			local timestamp=$(date -d "$datetime" "+%s")
-
-			local domain=$(echo $log | grep -o -E "^\[[^]]+\] \[[^]]+\]" | sed -e "s/\[//g" -e "s/\]//g" -e "s/$datetime//g")
-			local domainName=$(echo $domain | grep -o -E ".+:" | sed "s/://g")
-			local domainErrorType=$(echo $domain | grep -o -E ":.+" | sed "s/://g")
-
-			local process=$(echo $log | grep -o -E "^\[[^]]+\] \[[^]]+\] \[[^]]+\]" | sed -e "s/\[//g" -e "s/\]//g" -e "s/$datetime//g" -e "s/$domain//g" -e "s/^ //g")
-
-			local errorCode=$(echo $log | grep -o -E "\] [a-zA-Z0-9]+:" | sed -e "s/\] //g" -e "s/://g")
-			local errorMessage=$(echo $log | grep -o -E "\] [a-zA-Z0-9]+:.+$" | sed -e "s/\] ${errorCode}: //g")
+			parsedLog=$("$ARRAY_LINE_SET_SCRIPT_PATH" "$parsedLog" "~" 0 "$timestamp")
 
 			# Envoi du résultat.
-			"$ARRAY_FILE_ADD_SCRIPT_PATH" "$PARSED_LOGS_FILE_PATH" "$timestamp~$domainName~$domainErrorType~$process~$errorCode~$errorMessage"
+			"$ARRAY_FILE_ADD_SCRIPT_PATH" "$PARSED_LOGS_FILE_PATH" "$parsedLog"
 		fi
 
 		# Incrémentation de l'index.

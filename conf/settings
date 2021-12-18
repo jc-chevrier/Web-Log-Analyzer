@@ -19,10 +19,10 @@ sms_textbelt_api_url=https://textbelt.com/text
 # (clé pour un sms gratuit par jour).
 sms_textbelt_api_key=68c6f8147c3a754e5a4d6329dfb0d1e058e76cdd4EnQrqqpVNwWruixhazkW3wTF
 
-# Paramètres de la gestion des attaques DDOS.
-# Par défaut, l'intervalle d'étude des attaques DDOS est de
+# Paramètres de la gestion des attaques DOS.
+# Par défaut, l'intervalle d'étude des attaques DOS est de
 # 1h, soit de 3600 secondes.
-attack_ddos_interval=3600
+attack_dos_interval=3600
 # Par défaut, le nombre de requête minimum attendu pour la 
-# detection d'une attaque DDOS est de 100.
-attack_ddos_count_request=100
+# detection d'une attaque DOS est de 100.
+attack_dos_count_request=100

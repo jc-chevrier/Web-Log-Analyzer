@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-# Script de détection des attaques DDOS.
+# Script de détection des attaques DOS.
 
 
 # Scripts externes.
@@ -25,12 +25,12 @@ SEND_SMS_SCRIPT_PATH="${WEB_LOG_ANALYZER_PATH}/src/notifications/send_sms.sh"
 # Fichiers des structures de données.
 PARSED_ACCESS_LOGS_FILE_PATH="${WEB_LOG_ANALYZER_PATH}/tmp/parsed_access_logs"
 ACCUMULATED_FILTERED_ACCESS_LOGS_FILE_PATH="${WEB_LOG_ANALYZER_PATH}/tmp/accumulated_filtered_access_logs"
-DETECTED_ATTACKS_FILE_PATH="${WEB_LOG_ANALYZER_PATH}/tmp/detected_ddos_attacks"
+DETECTED_ATTACKS_FILE_PATH="${WEB_LOG_ANALYZER_PATH}/tmp/detected_dos_attacks"
 
 
 # Constantes.
-INTERVAL=$("$GET_SETTING_SCRIPT_PATH" "attack_ddos_interval")
-COUNT_REQUEST=$("$GET_SETTING_SCRIPT_PATH" "attack_ddos_count_request")
+INTERVAL=$("$GET_SETTING_SCRIPT_PATH" "attack_dos_interval")
+COUNT_REQUEST=$("$GET_SETTING_SCRIPT_PATH" "attack_dos_count_request")
 
 
 # Mttre à jour les attaques le listing des atatques détectées.
@@ -68,7 +68,7 @@ function clear() {
 
 
 # Filtrer les logs d'accès pour ne conserver que des
-# logs inclus dans l'intervalle d'étude des atatques DDOS,
+# logs inclus dans l'intervalle d'étude des atatques DOS,
 # et accumuler les logs filtrés qui ont en commun l'adresse
 # IP du client et l'URI demandé par le client.
 function analyze() {
@@ -85,10 +85,10 @@ function analyze() {
 	do
 		# Récupération des informations du log.
 		local IPAddressClient=$("$ARRAY_LINE_GET_SCRIPT_PATH" "$accessLog" "~" 0)
-		local timestamp=$("$ARRAY_LINE_GET_SCRIPT_PATH" "$accessLog" "~" 1)
-		local URI=$("$ARRAY_LINE_GET_SCRIPT_PATH" "$accessLog" "~" 3)
-                local returnHTTPCode=$("$ARRAY_LINE_GET_SCRIPT_PATH" "$accessLog" "~" 5)
-                local client=$("$ARRAY_LINE_GET_SCRIPT_PATH" "$accessLog" "~" 6)
+		local timestamp=$("$ARRAY_LINE_GET_SCRIPT_PATH" "$accessLog" "~" 3)
+		local URI=$("$ARRAY_LINE_GET_SCRIPT_PATH" "$accessLog" "~" 5)
+                local returnHTTPCode=$("$ARRAY_LINE_GET_SCRIPT_PATH" "$accessLog" "~" 7)
+                local client=$("$ARRAY_LINE_GET_SCRIPT_PATH" "$accessLog" "~" 10)
 		# Si le log est a eu lieu dans l"intervalle de
 		# temps de surveillance.
 		if [ $((timestampNow - timestamp)) -le $INTERVAL ]
@@ -132,7 +132,7 @@ function analyze() {
 }
 
 
-# Détecter les attaques DDOS, les afficher, et notifier
+# Détecter les attaques DOS, les afficher, et notifier
 # les responsables sécurité par sms et e-mail, et retenir
 # les attaques..
 function detect() {
@@ -155,13 +155,13 @@ function detect() {
 		# Vérification des logs d'accès accumulés.
 		# Si l'attaque n'avait pas déjà été détectée durant l'intervalle d'étude
 		# et si le nombre de requête qui a été fait sur l'intervalle a atteint le
-		# nombre de requêtes définnissant les attaques DDOS.
+		# nombre de requêtes définnissant les attaques DOS.
 		"$MAP_FILE_HAS_SCRIPT_PATH" "$DETECTED_ATTACKS_FILE_PATH" "~" "$IPAddressClient~$URI"
 		if [ $? -eq 1 -a $countRequest -ge $COUNT_REQUEST ]
 		then
 			# Notifications.
-			subject="[Alerte de sécurité] Attaque DDOS détectée"
-			message="Bonjour,\n\nUne attaque DDOS vient d'être détectée sur votre serveur web.\n\nElle a été effectuée par l'adresse IP $IPAddressClient sur l'URI $URI.\n\nL'attaquant a effectué $countRequest requêtes, en utilisant ces clients : $clients, et a obtenu ces codes HTTP en retour : $returnHTTPCodes.\n\nL'attaque a commencé $startDatetime.\n\nCordialement"
+			subject="[Alerte de sécurité] Attaque DOS détectée"
+			message="Bonjour,\n\nUne attaque DOS vient d'être détectée sur votre serveur web.\n\nElle a été effectuée par l'adresse IP $IPAddressClient sur l'URI $URI.\n\nL'attaquant a effectué $countRequest requêtes, en utilisant ces clients : $clients, et a obtenu ces codes HTTP en retour : $returnHTTPCodes.\n\nL'attaque a commencé $startDatetime.\n\nCordialement"
 			# Notification par e-mail.
 			"$SEND_EMAIL_SCRIPT_PATH" "$($LIST_USERS_EMAIL_ADDRESSES_SCRIPT_PATH)" "$subject" "$message"
 			# Notification par sms.
@@ -170,7 +170,7 @@ function detect() {
 			# Sauvegarde de l'attaque dans un tableau.
 			"$ARRAY_FILE_ADD_SCRIPT_PATH" "$DETECTED_ATTACKS_FILE_PATH" "$IPAddressClient~$URI~$timestampNow"
 			# Affichage sur le terminal.
-                        echo "Alerte : attaque DDOS détectée pour l'adresse IP $IPAddressClient sur l'URI $URI : $countRequest requêtes !"
+                        echo "Alerte : attaque DOS détectée pour l'adresse IP $IPAddressClient sur l'URI $URI : $countRequest requêtes !"
 		fi
         done < "$ACCUMULATED_FILTERED_ACCESS_LOGS_FILE_PATH"
 
