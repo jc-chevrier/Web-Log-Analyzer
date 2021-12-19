@@ -17,7 +17,7 @@ error_logs_file_path=/var/log/apache2/error.log
 sms_textbelt_api_url=https://textbelt.com/text
 # Valeur de la clé d'API par défaut : textbelt
 # (clé pour un sms gratuit par jour).
-sms_textbelt_api_key=CLE_API_SMS_TEXTBELT
+sms_textbelt_api_key=textbelt
 
 # Paramètres de la gestion des attaques DOS.
 # Par défaut, l'intervalle d'étude des attaques DOS est de
