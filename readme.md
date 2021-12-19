@@ -1,28 +1,28 @@
-Solution :
-<br>Web Log Analyzer
+### Solution
+![Icone Web LOg Analyzer](doc/web_log_analyzer.png)  Web Log Analyzer (v1.0)
 
 
 ---------------------------------------------------------------------------------------------
-Description :
-<br>Solution de monitoring de logs :
+#### Description
+Solution de monitoring de logs :
 - analyse de logs pour la détection d'attaques sur les serveurs web Apache, en 
   environnement Linux ;
 - notification d'attaques par e-mail et SMS.
 
 
 ---------------------------------------------------------------------------------------------
-Auteurs :
+#### Auteurs
 - CHEVRIER Jean-Christophe
 - CHOQUERT Vincent
 
 
 ---------------------------------------------------------------------------------------------
-Organisation :
-<br>Université de Lorraine
+#### Organisation
+Université de Lorraine
 
 
 ---------------------------------------------------------------------------------------------
-Installation :
+#### Installation
 
 Se procurer une machine sous environnement Linux.
 
@@ -67,7 +67,6 @@ export WEB_LOG_ANALYZER_PATH="CHEMIN_DE_LA_SOLUTION_SUR_MA_MACHINE"
 
 
 ----------------------------------------------------------------------------------------------
-Exécution :
-<br>
-<br>En tant qu'utilisateur root :
+#### Exécution
+En tant qu'utilisateur root :
 <br>CHEMIN_DE_LA_SOLUTION_SUR_MA_MACHINE/src/web_log_analyzer.sh
