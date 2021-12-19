@@ -4,11 +4,11 @@ timezone=Europe/Paris
 
 # Paramètres de localisation des logs.
 # https://www.a2hosting.com/kb/developer-corner/apache-web-server/viewing-apache-log-files#More-Information
-# Sur ubuntu ou débian : /var/log/apache2/access.log, 
+# Sur ubuntu ou debian : /var/log/apache2/access.log, 
 # sur les autres distributions linux : 
 # /etc/httpd/logs/access_log.
 access_logs_file_path=/var/log/apache2/access.log
-# Sur ubuntu ou débian : /var/log/apache2/error.log,
+# Sur ubuntu ou debian : /var/log/apache2/error.log,
 # sur les autres distributions linux : 
 # /etc/httpd/logs/error_log.
 error_logs_file_path=/var/log/apache2/error.log
