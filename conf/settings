@@ -1,5 +1,5 @@
 # Zone de fuseau horaire.
-# Par defaut, fuseau horarire de Paris : Europe/Paris.
+# Par defaut, fuseau horaire de Paris : Europe/Paris.
 timezone=Europe/Paris
 
 # Paramètres de localisation des logs.
@@ -17,7 +17,7 @@ error_logs_file_path=/var/log/apache2/error.log
 sms_textbelt_api_url=https://textbelt.com/text
 # Valeur de la clé d'API par défaut : textbelt
 # (clé pour un sms gratuit par jour).
-sms_textbelt_api_key=68c6f8147c3a754e5a4d6329dfb0d1e058e76cdd4EnQrqqpVNwWruixhazkW3wTF
+sms_textbelt_api_key=CLE_API_SMS_TEXTBELT
 
 # Paramètres de la gestion des attaques DOS.
 # Par défaut, l'intervalle d'étude des attaques DOS est de
