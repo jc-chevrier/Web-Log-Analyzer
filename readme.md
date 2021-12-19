@@ -63,7 +63,7 @@ varient en fonction des environnements Linux : /var/log/apache2/access.log ou ..
 Facultatif : se rendre dans conf/settings pour personnaliser les paramètres et stratégies.
 
 Exporter le chemin de la solution :
-export WEB_LOG_ANALYZER_PATH="CHEMIN_DE_LA_SOLUTION_SUR_MA_MACHINE"
+<br>export WEB_LOG_ANALYZER_PATH="CHEMIN_DE_LA_SOLUTION_SUR_MA_MACHINE"
 
 
 ----------------------------------------------------------------------------------------------
