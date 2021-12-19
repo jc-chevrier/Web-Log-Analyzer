@@ -32,7 +32,7 @@ Installer apache2 : sudo apt-get install apache2.
 
 Installer mailutils : sudo apt-get install mailutils.
  <br> Pendant l'intallation, choisir l'option "Site Internet", et définir le domaine
- <br> de votre machine que vous désirez, par exemple "web-log-analyzer.fr".
+ de votre machine que vous désirez, par exemple "web-log-analyzer.fr".
 
   Autoriser l'envoi d'e-mail sur le réseau que vous utilisez pour vous connecter à 
   internet sur votre machine. 
