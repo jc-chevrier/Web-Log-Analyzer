@@ -28,11 +28,11 @@ Se procurer une machine sous environnement `Linux`.
 
 Ouvrir un terminal `bash`.
 
-Installer `apache2` 
+Installer `apache2`.
 
 	sudo apt-get install apache2
 
-Installer `mailutils` 
+Installer `mailutils`.
 
 	sudo apt-get install mailutils 
 
@@ -47,7 +47,7 @@ Installer `mailutils`
 	et en configurant le relais dans la configuration de ssmtp : etc/ssmtp/ssmtp.conf. Cette 
 	vidéo décrit comment installer ce genre de relais : https://www.youtube.com/watch?v=qGRSv9PiAkw.
 
-Installer `curl`
+Installer `curl`.
 	
 	sudo apt-get install curl
 
@@ -58,7 +58,7 @@ Renseigner une clé pour l'API de SMS `Textbelt` dans le fichier `conf/settings`
 Se rendre dans `conf/users`, pour renseigner les utilisateurs à notifier en cas d'attaque détectée.
 <br>Renseigner les utilisateurs ainsi : un utilisateur par ligne, décrit avec ce format :
 <br>`NOM_UTILISATEUR;ADRESSE_EMAIL_UTILISATEUR;NUMERO_TELEPHONE_UTILISATEUR_AVEC_INDICATEUR_PAYS`.
-<br>Par exemple: Olivier Dupont;o.dupont.gmail.com;+33...
+<br>Par exemple: Olivier Dupont;o.dupont@gmail.com;+33...
 
 Se rendre dans `conf/settings`, pour renseigner les chemins sur votre machine des logs d'accès et 
 d'erreur d'`Apache` : clés `access_logs_file_path` et `error_logs_file_path`. Les chemins des logs
